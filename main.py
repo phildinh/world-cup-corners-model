@@ -7,6 +7,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'scripts'))
 from baseline_calculator import calculate_baseline
 from model_stats import model_stats
 from update_match import update_match
+from briefing import generate_briefing
 
 def main():
     parser = argparse.ArgumentParser(
@@ -15,7 +16,7 @@ def main():
     )
 
     parser.add_argument('command', choices=[
-        'update', 'stats', 'baseline', 'report'
+        'update', 'stats', 'baseline', 'report', 'briefing'
     ], help='''
 Commands:
   update    → Log match result and update all CSVs
@@ -145,6 +146,8 @@ Commands:
         print("  See data/lessons.csv for full lessons log.")
         print("=" * 50 + "\n")
 
+    elif args.command == 'briefing':
+            generate_briefing()
 
 if __name__ == '__main__':
     main()
