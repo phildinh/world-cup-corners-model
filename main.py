@@ -56,7 +56,7 @@ Commands:
 
     # ── BET ARGS ─────────────────────────────────────
     parser.add_argument('--market', default=None,
-                        help='total_over / total_under / ah_corners / 1h_over')
+                        help='total_over / total_under / ah_corners / 1h_over / 1h_under')
     parser.add_argument('--selection', default=None,
                         help='e.g. Over 9.5 / Belgium -3.0')
     parser.add_argument('--odds', type=float, default=None,
@@ -79,6 +79,25 @@ Commands:
     # ── SKIP LEAN ARG ────────────────────────────────
     parser.add_argument('--skip-lean', default='',
                         help='Direction leaning when skipping: over / under / none')
+
+    # ── V4.0 FLAGS ───────────────────────────────────
+    parser.add_argument('--data-confidence', default='high',
+                        help='Data source confidence: high / medium / low')
+    parser.add_argument('--counter-threat', default='auto',
+                        help='Counter-threat present: yes / no / auto')
+    parser.add_argument('--counter-scorer', action='store_true',
+                        help='Opponent scored on counter in last 3 matches')
+    parser.add_argument('--transition-xg', type=float, default=None,
+                        help='Opponent xG in transition per game')
+    parser.add_argument('--altitude', default='no',
+                        help='Altitude venue: yes / no')
+    parser.add_argument('--venue', default=None,
+                        help='Stadium name — auto-detects altitude')
+    parser.add_argument('--debut-opponent', action='store_true',
+                        help='Opponent at first World Cup')
+    parser.add_argument('--match-type', default=None,
+                        help='wide_vs_deep / wide_vs_counter / central_vs_deep / '
+                             'direct_vs_direct / wide_vs_open / mixed')
 
     # ── LESSON ARGS ──────────────────────────────────
     parser.add_argument('--lesson', default=None,
@@ -105,7 +124,7 @@ Commands:
 
     elif args.command == 'baseline':
         if not args.home or not args.away:
-            print("❌ baseline requires --home and --away")
+            print("baseline requires --home and --away")
             print("   Example: python main.py baseline "
                   "--home France --away Morocco --line 9.5")
             sys.exit(1)
@@ -116,42 +135,28 @@ Commands:
                     'total_corners', 'home_corners', 'away_corners', 'group']
         missing = [r for r in required if getattr(args, r, None) is None]
         if missing:
-            print(f"❌ update missing required args: {', '.join(missing)}")
-            print("\n  Minimum example:")
-            print("  python main.py update \\")
-            print("    --home France --away Morocco \\")
-            print("    --home-score 2 --away-score 0 \\")
-            print("    --total-corners 11 --home-corners 8 "
-                  "--away-corners 3 \\")
-            print("    --group I --game-state normal \\")
-            print("    --notes 'France dominant Mbappe scored'")
+            print(f"update missing required args: {', '.join(missing)}")
             sys.exit(1)
 
         update_match(
-            home=args.home,
-            away=args.away,
-            home_score=args.home_score,
-            away_score=args.away_score,
+            home=args.home, away=args.away,
+            home_score=args.home_score, away_score=args.away_score,
             total_corners=args.total_corners,
-            home_corners=args.home_corners,
-            away_corners=args.away_corners,
-            group=args.group,
-            game_state=args.game_state,
-            notes=args.notes,
-            market=args.market,
-            selection=args.selection,
-            odds=args.odds,
-            stake=args.stake,
-            bet_outcome=args.bet_outcome,
-            tier=args.tier,
-            confidence=args.confidence,
-            line=args.line,
-            home_avg=args.home_avg,
-            away_avg=args.away_avg,
-            lesson=args.lesson,
-            lesson_category=args.lesson_category,
-            rule=args.rule,
-            skip_lean=args.skip_lean
+            home_corners=args.home_corners, away_corners=args.away_corners,
+            group=args.group, game_state=args.game_state, notes=args.notes,
+            market=args.market, selection=args.selection,
+            odds=args.odds, stake=args.stake, bet_outcome=args.bet_outcome,
+            tier=args.tier, confidence=args.confidence, line=args.line,
+            home_avg=args.home_avg, away_avg=args.away_avg,
+            lesson=args.lesson, lesson_category=args.lesson_category,
+            rule=args.rule, skip_lean=args.skip_lean,
+            data_confidence=args.data_confidence,
+            counter_threat=args.counter_threat,
+            counter_scorer=args.counter_scorer,
+            transition_xg=args.transition_xg,
+            altitude=args.altitude, venue=args.venue,
+            debut_opponent=args.debut_opponent,
+            match_type=args.match_type
         )
 
     elif args.command == 'report':
@@ -172,10 +177,7 @@ Commands:
 
     elif args.command == 'log-version':
         if not args.version or not args.change or not args.trigger:
-            print("❌ log-version requires --version, --change, --trigger")
-            print("   Example: python main.py log-version "
-                  "--version v3.1 --change \"raised tier2 threshold\" "
-                  "--trigger \"win rate analysis\"")
+            print("log-version requires --version, --change, --trigger")
             sys.exit(1)
         log_version(args.version, args.change, args.trigger)
 

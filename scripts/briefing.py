@@ -22,7 +22,6 @@ def generate_briefing():
     lost = len(bets[bets['outcome'] == 'lost'])
     win_rate = round((won / total_bets) * 100, 1) if total_bets > 0 else 0
 
-    # Flat P&L (as if all stakes were 1 unit)
     flat_pl = round(sum(
         (row['odds'] - 1) if row['outcome'] == 'won' else -1.0
         for _, row in bets.iterrows()
@@ -30,7 +29,6 @@ def generate_briefing():
     flat_staked = total_bets
     flat_roi = round((flat_pl / flat_staked) * 100, 1) if flat_staked > 0 else 0
 
-    # Weighted P&L (actual tiered stakes)
     weighted_staked = bets['stake'].sum()
     weighted_pl = round(bets['profit_loss'].sum(), 3)
     weighted_roi = round((weighted_pl / weighted_staked) * 100, 1) if weighted_staked > 0 else 0
@@ -49,15 +47,6 @@ def generate_briefing():
     shadow_won = len(shadow[shadow['shadow_outcome'] == 'won'])
     shadow_wr = round((shadow_won / shadow_total) * 100, 1) if shadow_total > 0 else 0
     shadow_pl = shadow_won - len(shadow[shadow['shadow_outcome'] == 'lost'])
-
-    # ── MARKET BREAKDOWN ────────────────────────────
-    market_stats = bets.groupby('market').agg(
-        bets=('outcome', 'count'),
-        won=('outcome', lambda x: (x == 'won').sum()),
-        pl=('profit_loss', 'sum')
-    ).reset_index()
-    market_stats['win_rate'] = round(
-        (market_stats['won'] / market_stats['bets']) * 100, 1)
 
     # ── FORMATTING ──────────────────────────────────
     divider = "=" * 60
@@ -82,9 +71,25 @@ def generate_briefing():
     print(f"  Shadow portfolio:  {shadow_total} tracked — {shadow_won} won ({shadow_wr}%) — "
           f"{'+' if shadow_pl >= 0 else ''}{shadow_pl}.0 shadow units")
 
+    # ── DATA CONFIDENCE WARNINGS ────────────────────
+    low_conf = predictions[predictions.get('data_confidence', pd.Series(dtype=str)).astype(str) == 'low']
+    if len(low_conf) > 0:
+        print(f"\n  LOW DATA CONFIDENCE WARNINGS")
+        print(thin)
+        for _, row in low_conf.iterrows():
+            print(f"  {row['home_team']} vs {row['away_team']} — "
+                  f"tier demoted due to low data confidence")
+
     # ── MARKET BREAKDOWN ────────────────────────────
     print("\n  MARKET BREAKDOWN")
     print(thin)
+    market_stats = bets.groupby('market').agg(
+        bets=('outcome', 'count'),
+        won=('outcome', lambda x: (x == 'won').sum()),
+        pl=('profit_loss', 'sum')
+    ).reset_index()
+    market_stats['win_rate'] = round(
+        (market_stats['won'] / market_stats['bets']) * 100, 1)
     for _, row in market_stats.iterrows():
         pl = row['pl']
         print(f"  {row['market']:<20} "
@@ -96,8 +101,8 @@ def generate_briefing():
     print("\n  ALL BETS PLACED")
     print(thin)
     for _, row in bets.iterrows():
-        icon = '✅' if row['outcome'] == 'won' else '❌'
-        print(f"  {icon} {row['home_team']} vs {row['away_team']:<15} "
+        icon = 'W' if row['outcome'] == 'won' else 'L'
+        print(f"  [{icon}] {row['home_team']} vs {row['away_team']:<15} "
               f"{row['market']:<15} {row['selection']:<15} "
               f"@ {row['odds']}  {row['outcome'].upper()}  "
               f"P&L: {'+' if row['profit_loss'] >= 0 else ''}{row['profit_loss']}")
@@ -106,12 +111,44 @@ def generate_briefing():
     print("\n  ALL MATCH RESULTS")
     print(thin)
     for _, row in matches.iterrows():
+        mt = str(row.get('match_type', '')).strip()
+        if pd.isna(row.get('match_type', '')):
+            mt = ''
+        mt_str = f"  Type: {mt}" if mt else ""
         print(f"  {row['date']}  "
               f"{row['home_team']} {row['home_score']}-{row['away_score']} "
               f"{row['away_team']:<15}  "
               f"Corners: {row['total_corners']} "
               f"({row['home_corners']}H / {row['away_corners']}A)  "
-              f"State: {row['game_state']}")
+              f"State: {row['game_state']}{mt_str}")
+
+    # ── MATCH TYPE PERFORMANCE ──────────────────────
+    if 'match_type' in matches.columns:
+        mt_stats = matches.groupby('match_type').agg(
+            count=('total_corners', 'count'),
+            avg_corners=('total_corners', 'mean')
+        ).reset_index()
+        mt_stats['avg_corners'] = mt_stats['avg_corners'].round(1)
+
+        has_meaningful = len(mt_stats[mt_stats['count'] >= 3]) > 0
+        if has_meaningful or len(matches) >= 5:
+            print("\n  MATCH TYPE PERFORMANCE")
+            print(thin)
+            mt_preds = predictions.merge(
+                matches[['match_id', 'total_corners']], on='match_id', how='left')
+            for _, row in mt_stats.sort_values('avg_corners', ascending=False).iterrows():
+                flag = " *" if row['count'] >= 3 else ""
+                mt_bets = mt_preds[
+                    (mt_preds['match_type'] == row['match_type']) &
+                    (mt_preds['bet_placed'].astype(str).str.upper() == 'TRUE')
+                ]
+                bet_info = ""
+                if len(mt_bets) > 0:
+                    mt_won = len(mt_bets[mt_bets['outcome'] == 'won'])
+                    bet_info = f"  Bets: {mt_won}W {len(mt_bets)-mt_won}L"
+                print(f"  {row['match_type']:<20} "
+                      f"{int(row['count'])} match{'es' if row['count'] > 1 else ''}  "
+                      f"avg {row['avg_corners']:>5.1f} corners{bet_info}{flag}")
 
     # ── TEAM CORNER AVERAGES ─────────────────────────
     print("\n  TEAM CORNER AVERAGES")
@@ -140,8 +177,8 @@ def generate_briefing():
     # ── ALL PREDICTIONS LOG ──────────────────────────
     print("\n  ALL PREDICTIONS LOG")
     print(thin)
-    print(f"  {'Match':<30} {'Baseline':>9} {'Line':>5} {'Tier':<12} "
-          f"{'Bet?':>5} {'Lean':<7} {'Outcome'}")
+    print(f"  {'Match':<30} {'Baseline':>8} {'Line':>5} {'Tier':<7} "
+          f"{'Bet?':>4} {'Lean':<6} {'DC':<4} {'Type':<16} {'Outcome'}")
     print(thin)
     for _, row in predictions.iterrows():
         match = f"{row['home_team']} vs {row['away_team']}"
@@ -149,12 +186,22 @@ def generate_briefing():
         lean = str(row.get('skip_lean', '')).strip()
         if pd.isna(row.get('skip_lean', '')):
             lean = ''
+        dc = str(row.get('data_confidence', 'high')).strip()
+        if pd.isna(row.get('data_confidence', '')):
+            dc = 'high'
+        dc_short = dc[0].upper() if dc else 'H'
+        mt = str(row.get('match_type', '')).strip()
+        if pd.isna(row.get('match_type', '')):
+            mt = ''
+        ct = str(row.get('counter_threat', '')).strip()
+        ct_flag = " CT" if ct == 'yes' else ""
         print(f"  {match:<30} "
-              f"{row['combined_baseline']:>9.2f} "
+              f"{row['combined_baseline']:>8.2f} "
               f"{row['line_offered']:>5.1f} "
-              f"{row['tier']:<12} "
-              f"{bet_placed:>5} {lean:<7} "
-              f"{row['outcome']}")
+              f"{row['tier']:<7} "
+              f"{bet_placed:>4} {lean:<6} "
+              f"{dc_short:<4} {mt:<16} "
+              f"{row['outcome']}{ct_flag}")
 
     # ── MODEL VERSION HISTORY ────────────────────────
     try:
@@ -215,6 +262,9 @@ def generate_briefing():
     --odds [X.XXX] --stake 1.00 --bet-outcome [won/lost/void]
     --tier [tier_1/tier_2/tier_3] --confidence [high/medium/low]
     --line [X.X] --home-avg [X.XX] --away-avg [X.XX]
+    --data-confidence [high/medium/low]
+    --counter-threat [yes/no/auto]
+    --match-type [wide_vs_deep/wide_vs_counter/central_vs_deep/direct_vs_direct/wide_vs_open/mixed]
     --lesson "[lesson learned]"
     --lesson-category [baseline_accuracy/market_selection/
                        style_classification/game_state/skip_accuracy]
@@ -229,18 +279,32 @@ def generate_briefing():
     --notes "[one line summary]"
     --skip-lean [over/under/none]
 
+  OPTIONAL V4.0 FLAGS (all have sensible defaults):
+    --data-confidence [high/medium/low]    default: high
+    --counter-threat [yes/no/auto]         default: auto (derived from team DB)
+    --counter-scorer                       flag: opponent scored on counter
+    --transition-xg [value]                opponent transition xG per game
+    --altitude [yes/no]                    default: no
+    --venue "[stadium name]"               auto-detects altitude
+    --debut-opponent                       flag: opponent first World Cup
+    --match-type [type]                    default: auto-derived from team DB
+
   VALID VALUES:
-  market:     total_over / total_under / ah_corners / 1h_over / 1h_under
-  game_state: normal / underdog_scored_early / blowout
-  tier:       tier_1 / tier_2 / tier_3
-  confidence: high / medium / low / skip
-  category:   baseline_accuracy / market_selection / style_classification
-              game_state / skip_accuracy
+  market:          total_over / total_under / ah_corners / 1h_over / 1h_under
+  game_state:      normal / underdog_scored_early / blowout
+  tier:            tier_1 / tier_2 / tier_3
+  confidence:      high / medium / low / skip
+  data_confidence: high / medium / low
+  counter_threat:  yes / no / auto
+  match_type:      wide_vs_deep / wide_vs_counter / central_vs_deep /
+                   direct_vs_direct / wide_vs_open / mixed
+  category:        baseline_accuracy / market_selection / style_classification
+                   game_state / skip_accuracy
   """)
 
     # ── FOOTER ──────────────────────────────────────
     print(divider)
-    print(f"  MODEL: v3.0  |  MATCHES LOGGED: {len(matches)}  "
+    print(f"  MODEL: v4.0  |  MATCHES LOGGED: {len(matches)}  "
           f"|  TEAMS TRACKED: {len(teams)}")
     print(f"  Paste this entire output into Claude Chat to load full context.")
     print(divider + "\n")

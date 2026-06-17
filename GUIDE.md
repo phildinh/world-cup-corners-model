@@ -182,12 +182,16 @@ using backtick ` for line continuation — never backslash \.
 
 ## VALID VALUES
 
-    market:     total_over / total_under / ah_corners / 1h_over / 1h_under
-    game_state: normal / underdog_scored_early / blowout
-    tier:       tier_1 / tier_2 / tier_3
-    confidence: high / medium / low / skip
-    category:   baseline_accuracy / market_selection / style_classification
-                game_state / skip_accuracy
+    market:          total_over / total_under / ah_corners / 1h_over / 1h_under
+    game_state:      normal / underdog_scored_early / blowout
+    tier:            tier_1 / tier_2 / tier_3
+    confidence:      high / medium / low / skip
+    data_confidence: high / medium / low
+    counter_threat:  yes / no / auto
+    match_type:      wide_vs_deep / wide_vs_counter / central_vs_deep /
+                     direct_vs_direct / wide_vs_open / mixed
+    category:        baseline_accuracy / market_selection / style_classification
+                     game_state / skip_accuracy
 
 ---
 
