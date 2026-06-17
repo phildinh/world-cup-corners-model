@@ -5,7 +5,7 @@ A data-driven corners prediction model for FIFA World Cup 2026.
 Built and validated across live matches — updated after every game.
 
 Last updated: June 17, 2026
-Current record: 2W 1L | Correct skips: 3/4
+Current record: 2W 1L | Correct skips: 5/5
 
 ---
 
@@ -139,7 +139,9 @@ Before every bet ask:
 ---
 
 ## STAKING RULES
-- Unit stake: split evenly across all bets
+- Tier 1 high confidence  → stake 2.00 units
+- Tier 2 medium confidence → stake 1.00 units
+- Max 4 units total per day
 - Maximum 1 bet per match
 - Maximum 2 bets only if two genuinely independent strong edges exist
 - No multis — single bets only

@@ -9,6 +9,7 @@ from model_stats import model_stats
 from update_match import update_match
 from briefing import generate_briefing
 from analyse_model import analyse_model
+from log_version import log_version
 
 def main():
     parser = argparse.ArgumentParser(
@@ -17,14 +18,16 @@ def main():
     )
 
     parser.add_argument('command', choices=[
-        'update', 'stats', 'baseline', 'report', 'briefing', 'analyse'
+        'update', 'stats', 'baseline', 'report', 'briefing',
+        'analyse', 'log-version'
     ], help='''
 Commands:
-  update    → Log match result and update all CSVs
-  stats     → Show full model stats and P&L
-  baseline  → Calculate corners baseline for a matchup
-  report    → Generate full model report
-  analyse   → Run full model analysis
+  update      → Log match result and update all CSVs
+  stats       → Show full model stats and P&L
+  baseline    → Calculate corners baseline for a matchup
+  report      → Generate full model report
+  analyse     → Run full model analysis
+  log-version → Log model version change
     ''')
 
     # ── BASELINE ARGS ────────────────────────────────
@@ -85,6 +88,14 @@ Commands:
                              'style_classification / game_state / skip_accuracy')
     parser.add_argument('--rule', default=None,
                         help='New rule added to model')
+
+    # ── LOG-VERSION ARGS ─────────────────────────────
+    parser.add_argument('--version', default=None,
+                        help='Model version e.g. v3.1')
+    parser.add_argument('--change', default=None,
+                        help='What rule changed')
+    parser.add_argument('--trigger', default=None,
+                        help='Why the change was made')
 
     args = parser.parse_args()
 
@@ -158,6 +169,15 @@ Commands:
 
     elif args.command == 'analyse':
         analyse_model()
+
+    elif args.command == 'log-version':
+        if not args.version or not args.change or not args.trigger:
+            print("❌ log-version requires --version, --change, --trigger")
+            print("   Example: python main.py log-version "
+                  "--version v3.1 --change \"raised tier2 threshold\" "
+                  "--trigger \"win rate analysis\"")
+            sys.exit(1)
+        log_version(args.version, args.change, args.trigger)
 
 if __name__ == '__main__':
     main()

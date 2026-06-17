@@ -26,7 +26,7 @@ def model_stats():
     roi = round((total_pl / total_staked) * 100, 1) if total_staked > 0 else 0
 
     # ── SKIP ACCURACY ───────────────────────────────
-    skips = predictions[predictions['bet_placed'] == False]
+    skips = predictions[predictions['bet_placed'].astype(str).str.upper() == 'FALSE']
     correct_skips = len(skips[skips['outcome'] == 'correct'])
     total_skips = len(skips)
     skip_accuracy = round(
@@ -45,7 +45,7 @@ def model_stats():
 
     # ── TIER BREAKDOWN ──────────────────────────────
     tier_stats = predictions[
-        predictions['bet_placed'] == True
+        predictions['bet_placed'].astype(str).str.upper() == 'TRUE'
     ].groupby('tier').agg(
         bets=('outcome', 'count'),
         won=('outcome', lambda x: (x == 'won').sum())
