@@ -180,3 +180,18 @@ Before every bet ask:
 | 7-9 | Central/direct team dominates, scores through middle |
 | 4-6 | Two direct teams, both defensive, low tempo |
 | 18+ | Outlier — underdog scores early, favourite chases wide desperately |
+
+## BATCH ANALYSIS RULES
+
+When multiple matches are given at once:
+1. Research all matches before making any decision
+2. Rank all matches by edge strength before dropping lines
+3. See full day picture before committing to any bet
+4. Natural filter — only strongest edges survive when you see all matches together
+5. Maximum 2 bets per day unless 3+ genuinely independent strong edges exist
+6. Drop all lines at once — not one by one
+
+### Daily Edge Ranking Format
+STRONG EDGE:   [Match] — Tier 1 — [market] — [direction]
+MODERATE EDGE: [Match] — Tier 2 — [market] — [direction]
+NO EDGE:       [Match] — Tier 3 — Skip
