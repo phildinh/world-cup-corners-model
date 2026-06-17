@@ -169,6 +169,8 @@ If anything looks wrong tell Claude and fix before next session.
 - Default market is always Asian Total Corners Over/Under
 - Pre-match only — no live betting
 - Skip if no clean edge — never force a bet
+- At end of day, generate one multi bet using the best Over/Under selection 
+  from each match (highest confidence only) — no AH corners in multis
 
 ---
 
