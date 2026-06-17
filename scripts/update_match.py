@@ -24,7 +24,8 @@ def update_match(home, away, home_score, away_score,
                  stake=None, bet_outcome=None,
                  tier=None, confidence=None, line=None,
                  home_avg=None, away_avg=None,
-                 lesson=None, lesson_category=None, rule=None):
+                 lesson=None, lesson_category=None, rule=None,
+                 skip_lean=None):
 
     today = date.today().isoformat()
 
@@ -117,6 +118,7 @@ def update_match(home, away, home_score, away_score,
             'confidence': confidence or 'skip',
             'line_offered': line or 0,
             'bet_placed': bet_placed,
+            'skip_lean': skip_lean if not market else '',
             'outcome': bet_outcome or 'skip',
             'notes': notes
         }
@@ -173,6 +175,8 @@ if __name__ == '__main__':
     parser.add_argument('--lesson', default=None)
     parser.add_argument('--lesson-category', default=None)
     parser.add_argument('--rule', default=None)
+    parser.add_argument('--skip-lean', default='',
+        help='Direction leaning when skipping: over / under / none')
     args = parser.parse_args()
 
     update_match(
@@ -198,5 +202,6 @@ if __name__ == '__main__':
         away_avg=args.away_avg,
         lesson=args.lesson,
         lesson_category=args.lesson_category,
-        rule=args.rule
+        rule=args.rule,
+        skip_lean=args.skip_lean
     )

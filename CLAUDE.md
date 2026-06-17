@@ -32,6 +32,7 @@ and Claude Code (data engineering/automation).
     python main.py stats       # Show model stats and P&L
     python main.py baseline    # Calculate baseline for a matchup
     python main.py report      # Generate full model report
+    python main.py analyse     # Run full model analysis
 
 ## Trigger Phrases
 

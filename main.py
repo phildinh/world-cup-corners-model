@@ -8,6 +8,7 @@ from baseline_calculator import calculate_baseline
 from model_stats import model_stats
 from update_match import update_match
 from briefing import generate_briefing
+from analyse_model import analyse_model
 
 def main():
     parser = argparse.ArgumentParser(
@@ -16,13 +17,14 @@ def main():
     )
 
     parser.add_argument('command', choices=[
-        'update', 'stats', 'baseline', 'report', 'briefing'
+        'update', 'stats', 'baseline', 'report', 'briefing', 'analyse'
     ], help='''
 Commands:
   update    → Log match result and update all CSVs
   stats     → Show full model stats and P&L
   baseline  → Calculate corners baseline for a matchup
   report    → Generate full model report
+  analyse   → Run full model analysis
     ''')
 
     # ── BASELINE ARGS ────────────────────────────────
@@ -70,6 +72,10 @@ Commands:
                         help='Home team avg corners taken')
     parser.add_argument('--away-avg', type=float, default=None,
                         help='Away team avg corners taken')
+
+    # ── SKIP LEAN ARG ────────────────────────────────
+    parser.add_argument('--skip-lean', default='',
+                        help='Direction leaning when skipping: over / under / none')
 
     # ── LESSON ARGS ──────────────────────────────────
     parser.add_argument('--lesson', default=None,
@@ -133,7 +139,8 @@ Commands:
             away_avg=args.away_avg,
             lesson=args.lesson,
             lesson_category=args.lesson_category,
-            rule=args.rule
+            rule=args.rule,
+            skip_lean=args.skip_lean
         )
 
     elif args.command == 'report':
@@ -147,7 +154,10 @@ Commands:
         print("=" * 50 + "\n")
 
     elif args.command == 'briefing':
-            generate_briefing()
+        generate_briefing()
+
+    elif args.command == 'analyse':
+        analyse_model()
 
 if __name__ == '__main__':
     main()

@@ -110,11 +110,12 @@ SKIPPED MATCH — PowerShell format:
       --away-corners [X] `
       --group [X] `
       --game-state [normal/underdog_scored_early/blowout] `
-      --notes "[one line summary]"
+      --notes "[one line summary]" `
+      --skip-lean [over/under/none]
 
 OR use single line format — no continuation needed:
 
-    python main.py update --home [Home] --away [Away] --home-score [X] --away-score [X] --total-corners [X] --home-corners [X] --away-corners [X] --group [X] --game-state [normal] --notes "[summary]"
+    python main.py update --home [Home] --away [Away] --home-score [X] --away-score [X] --total-corners [X] --home-corners [X] --away-corners [X] --group [X] --game-state [normal] --notes "[summary]" --skip-lean [over/under/none]
 
 Then push to GitHub:
 

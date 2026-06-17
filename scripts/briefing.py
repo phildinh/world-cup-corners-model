@@ -120,16 +120,19 @@ def generate_briefing():
     print("\n  ALL PREDICTIONS LOG")
     print(thin)
     print(f"  {'Match':<30} {'Baseline':>9} {'Line':>5} {'Tier':<12} "
-          f"{'Bet?':>5} {'Outcome'}")
+          f"{'Bet?':>5} {'Lean':<7} {'Outcome'}")
     print(thin)
     for _, row in predictions.iterrows():
         match = f"{row['home_team']} vs {row['away_team']}"
         bet_placed = 'YES' if row['bet_placed'] else 'NO'
+        lean = str(row.get('skip_lean', '')).strip()
+        if pd.isna(row.get('skip_lean', '')):
+            lean = ''
         print(f"  {match:<30} "
               f"{row['combined_baseline']:>9.2f} "
               f"{row['line_offered']:>5.1f} "
               f"{row['tier']:<12} "
-              f"{bet_placed:>5}  "
+              f"{bet_placed:>5} {lean:<7} "
               f"{row['outcome']}")
 
     # ── MODEL VERSION HISTORY ────────────────────────
@@ -200,6 +203,7 @@ def generate_briefing():
     --total-corners [X] --home-corners [X] --away-corners [X]
     --group [X] --game-state [normal/underdog_scored_early/blowout]
     --notes "[one line summary]"
+    --skip-lean [over/under/none]
 
   VALID VALUES:
   market:     total_over / total_under / ah_corners / 1h_over / 1h_under
