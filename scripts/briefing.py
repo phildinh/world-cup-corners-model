@@ -135,7 +135,7 @@ def generate_briefing():
           f"|  TEAMS TRACKED: {len(teams)}")
     print(f"  Paste this entire output into Claude Chat to load full context.")
     print(f"{divider}\n")
-
+    print(f" For update commands and workflow see GUIDE.md ")
 
 if __name__ == '__main__':
     generate_briefing()
