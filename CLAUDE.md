@@ -28,11 +28,12 @@ and Claude Code (data engineering/automation).
 
 ## Commands
 
-    python main.py update      # Log match result → updates all CSVs
-    python main.py stats       # Show model stats and P&L
-    python main.py baseline    # Calculate baseline for a matchup
-    python main.py report      # Generate full model report
-    python main.py analyse     # Run full model analysis
+    python main.py update       # Log match result → updates all CSVs
+    python main.py stats        # Show model stats and P&L
+    python main.py baseline     # Calculate baseline for a matchup
+    python main.py report       # Generate full model report
+    python main.py analyse      # Run full model analysis
+    python main.py log-version  # Log model version change
 
 ## Trigger Phrases
 
@@ -59,6 +60,27 @@ and Claude Code (data engineering/automation).
 1. Read all CSVs
 2. Output full model performance summary
 3. Include lessons learned and model evolution log
+
+### "python main.py analyse"
+Runs scripts/analyse_model.py
+Outputs full pattern analysis across all 7 sections
+Run this every 5 matches to detect model improvement opportunities
+
+### "python main.py log-version --version [X] --change [X] --trigger [X]"
+Runs scripts/log_version.py
+Appends new version row to data/model_versions.csv
+Run this whenever MODEL.md rules are updated
+
+## Staking Rules
+- Tier 1 high confidence  → stake 2.00 units
+- Tier 2 medium confidence → stake 1.00 units
+- Never stake more than 4 units total per day
+- Shadow bets are tracked in predictions.csv only — never in bets.csv
+
+When generating update commands for Claude Chat:
+- If tier=tier_1 → always set --stake 2.00
+- If tier=tier_2 → always set --stake 1.00
+- If no bet placed → no stake argument needed
 
 ## Schema Rules
 - Every row appended must match exact column order in each CSV

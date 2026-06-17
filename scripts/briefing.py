@@ -21,17 +21,34 @@ def generate_briefing():
     won = len(bets[bets['outcome'] == 'won'])
     lost = len(bets[bets['outcome'] == 'lost'])
     win_rate = round((won / total_bets) * 100, 1) if total_bets > 0 else 0
-    total_staked = bets['stake'].sum()
-    total_pl = round(bets['profit_loss'].sum(), 3)
-    roi = round((total_pl / total_staked) * 100, 1) if total_staked > 0 else 0
+
+    # Flat P&L (as if all stakes were 1 unit)
+    flat_pl = round(sum(
+        (row['odds'] - 1) if row['outcome'] == 'won' else -1.0
+        for _, row in bets.iterrows()
+    ), 3)
+    flat_staked = total_bets
+    flat_roi = round((flat_pl / flat_staked) * 100, 1) if flat_staked > 0 else 0
+
+    # Weighted P&L (actual tiered stakes)
+    weighted_staked = bets['stake'].sum()
+    weighted_pl = round(bets['profit_loss'].sum(), 3)
+    weighted_roi = round((weighted_pl / weighted_staked) * 100, 1) if weighted_staked > 0 else 0
 
     # ── SKIP ACCURACY ───────────────────────────────
-    skips = predictions[predictions['bet_placed'] == False]
+    skips = predictions[predictions['bet_placed'].astype(str).str.upper() == 'FALSE']
     correct_skips = len(skips[skips['outcome'] == 'correct'])
     total_skips = len(skips)
     skip_accuracy = round(
         (correct_skips / total_skips) * 100, 1
     ) if total_skips > 0 else 0
+
+    # ── SHADOW PORTFOLIO ────────────────────────────
+    shadow = predictions[predictions['shadow_bet'].astype(str).str.upper() == 'TRUE']
+    shadow_total = len(shadow)
+    shadow_won = len(shadow[shadow['shadow_outcome'] == 'won'])
+    shadow_wr = round((shadow_won / shadow_total) * 100, 1) if shadow_total > 0 else 0
+    shadow_pl = shadow_won - len(shadow[shadow['shadow_outcome'] == 'lost'])
 
     # ── MARKET BREAKDOWN ────────────────────────────
     market_stats = bets.groupby('market').agg(
@@ -55,11 +72,15 @@ def generate_briefing():
     # ── BETTING RECORD ──────────────────────────────
     print("\n  BETTING RECORD")
     print(thin)
-    print(f"  Bets:          {total_bets} ({won}W {lost}L)")
-    print(f"  Win rate:      {win_rate}%")
-    print(f"  P&L:           {'+' if total_pl >= 0 else ''}{total_pl} units")
-    print(f"  ROI:           {'+' if roi >= 0 else ''}{roi}%")
-    print(f"  Skips:         {total_skips} total — {correct_skips} correct ({skip_accuracy}%)")
+    print(f"  Bets:              {total_bets} ({won}W {lost}L)")
+    print(f"  Win rate:          {win_rate}%")
+    print(f"  P&L (flat):        {'+' if flat_pl >= 0 else ''}{flat_pl} units")
+    print(f"  P&L (weighted):    {'+' if weighted_pl >= 0 else ''}{weighted_pl} units")
+    print(f"  ROI (flat):        {'+' if flat_roi >= 0 else ''}{flat_roi}%")
+    print(f"  ROI (weighted):    {'+' if weighted_roi >= 0 else ''}{weighted_roi}%")
+    print(f"  Skips:             {total_skips} total — {correct_skips} correct ({skip_accuracy}%)")
+    print(f"  Shadow portfolio:  {shadow_total} tracked — {shadow_won} won ({shadow_wr}%) — "
+          f"{'+' if shadow_pl >= 0 else ''}{shadow_pl}.0 shadow units")
 
     # ── MARKET BREAKDOWN ────────────────────────────
     print("\n  MARKET BREAKDOWN")
@@ -124,7 +145,7 @@ def generate_briefing():
     print(thin)
     for _, row in predictions.iterrows():
         match = f"{row['home_team']} vs {row['away_team']}"
-        bet_placed = 'YES' if row['bet_placed'] else 'NO'
+        bet_placed = 'YES' if str(row['bet_placed']).upper() == 'TRUE' else 'NO'
         lean = str(row.get('skip_lean', '')).strip()
         if pd.isna(row.get('skip_lean', '')):
             lean = ''
@@ -148,6 +169,9 @@ def generate_briefing():
             print(f"    Changed: {row['rule_changed']}")
             print(f"    Trigger: {row['trigger']}")
             print()
+        print(f"  Current: Flat P&L {'+' if flat_pl >= 0 else ''}{flat_pl} | "
+              f"Weighted P&L {'+' if weighted_pl >= 0 else ''}{weighted_pl}")
+        print()
     except Exception:
         pass
 

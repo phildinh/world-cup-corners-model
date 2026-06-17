@@ -2,6 +2,7 @@ import pandas as pd
 from datetime import date
 import argparse
 import os
+import subprocess
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), '..', 'data')
 
@@ -9,8 +10,23 @@ def load_csv(filename):
     path = os.path.join(DATA_DIR, filename)
     return pd.read_csv(path)
 
+ID_COLUMNS = {
+    'matches.csv': 'match_id',
+    'bets.csv': ['bet_id', 'match_id'],
+    'predictions.csv': ['prediction_id', 'match_id'],
+    'lessons.csv': ['lesson_id', 'match_id'],
+    'model_versions.csv': None,
+}
+
 def save_csv(df, filename):
     path = os.path.join(DATA_DIR, filename)
+    id_cols = ID_COLUMNS.get(filename)
+    if id_cols:
+        if isinstance(id_cols, str):
+            id_cols = [id_cols]
+        for col in id_cols:
+            if col in df.columns:
+                df[col] = df[col].astype(int).astype(str).str.zfill(3)
     df.to_csv(path, index=False)
     print(f"✅ {filename} updated")
 
@@ -103,6 +119,24 @@ def update_match(home, away, home_score, away_score,
         combined_baseline = round(
             float(home_avg or 0) + float(away_avg or 0), 2)
         bet_placed = True if market else False
+        lean = skip_lean if not market else ''
+        shadow_bet = (not market) and lean in ('over', 'under')
+        shadow_outcome = ''
+        if shadow_bet and line and total_corners is not None:
+            if lean == 'over':
+                if total_corners > line:
+                    shadow_outcome = 'won'
+                elif total_corners < line:
+                    shadow_outcome = 'lost'
+                else:
+                    shadow_outcome = 'push'
+            elif lean == 'under':
+                if total_corners < line:
+                    shadow_outcome = 'won'
+                elif total_corners > line:
+                    shadow_outcome = 'lost'
+                else:
+                    shadow_outcome = 'push'
         new_pred = {
             'prediction_id': pred_id,
             'match_id': match_id,
@@ -118,7 +152,9 @@ def update_match(home, away, home_score, away_score,
             'confidence': confidence or 'skip',
             'line_offered': line or 0,
             'bet_placed': bet_placed,
-            'skip_lean': skip_lean if not market else '',
+            'skip_lean': lean,
+            'shadow_bet': shadow_bet,
+            'shadow_outcome': shadow_outcome,
             'outcome': bet_outcome or 'skip',
             'notes': notes
         }
@@ -147,6 +183,23 @@ def update_match(home, away, home_score, away_score,
     print(f"   Match ID: {match_id}")
     print(f"   Score: {home_score}-{away_score}")
     print(f"   Corners: {total_corners} ({home_corners} / {away_corners})")
+
+    git_commit(home, away, total_corners)
+
+
+def git_commit(home, away, total_corners):
+    try:
+        repo_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+        subprocess.run(['git', 'add', 'data/'],
+                       check=True, cwd=repo_dir)
+        subprocess.run(['git', 'commit', '-m',
+                        f'data: {home} vs {away} — {total_corners} corners'],
+                       check=True, cwd=repo_dir)
+        subprocess.run(['git', 'push'],
+                       check=True, cwd=repo_dir)
+        print(f"\n✅ Git committed and pushed successfully")
+    except subprocess.CalledProcessError as e:
+        print(f"\n⚠️  Git operation failed — push manually: {e}")
 
 
 if __name__ == '__main__':

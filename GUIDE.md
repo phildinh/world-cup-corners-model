@@ -151,6 +151,10 @@ using backtick ` for line continuation — never backslash \.
 - Pre-match only — no live betting
 - No multis — single bets only
 - Skip if no clean edge — never force a bet
+- Tier 1 (high confidence) → stake 2 units
+- Tier 2 (medium confidence) → stake 1 unit
+- Max 4 units total per day
+- Shadow portfolio tracked automatically — no action needed
 
 ---
 
