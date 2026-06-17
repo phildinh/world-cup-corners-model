@@ -3,7 +3,7 @@ import os
 from datetime import date
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), '..', 'data')
-ROOT_DIR = os.path.join(os.path.dirname(__file__), '..')
+ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
 def load_csv(filename):
     path = os.path.join(DATA_DIR, filename)
@@ -150,15 +150,16 @@ def generate_briefing():
 
     # ── FULL MODEL FRAMEWORK ─────────────────────────
     try:
-        model_path = os.path.join(ROOT_DIR, 'MODEL.md')
-        with open(model_path, 'r') as f:
+        model_path = os.path.abspath(
+            os.path.join(os.path.dirname(__file__), '..', 'MODEL.md'))
+        with open(model_path, 'r', encoding='utf-8') as f:
             model_content = f.read()
         print(f"\n{divider}")
         print("  FULL MODEL FRAMEWORK")
         print(divider)
         print(model_content)
-    except Exception:
-        print("\n  WARNING: MODEL.md not found")
+    except Exception as e:
+        print(f"\n  WARNING: MODEL.md not found — {e}")
 
     # ── WORKFLOW REFERENCE ───────────────────────────
     print(f"\n{divider}")
