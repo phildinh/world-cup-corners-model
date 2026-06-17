@@ -4,12 +4,12 @@
 
 ## STEP 1 — START EVERY SESSION
 
-Run this locally before starting a new Claude Chat:
+Run this in PowerShell before starting a new Claude Chat:
 
     python main.py briefing
 
-Copy the entire output and paste it into Claude Chat.
-Then also paste the full contents of this GUIDE.md file.
+Copy the entire output and paste it into Claude Chat along with the
+session starter prompt saved in your notes.
 Claude will confirm everything is loaded then ask for today's matches.
 
 ---
@@ -60,92 +60,63 @@ Example:
     Results:
     1. France vs Morocco — 2-0 — 11 corners (France 8, Morocco 3) — normal — won
     2. Belgium vs Tunisia — 1-1 — 9 corners (Belgium 6, Tunisia 3) — normal — skip
-    3. Argentina vs Nigeria — 3-0 — 7 corners (Argentina 5, Nigeria 2) — blowout — skip
+    3. Argentina vs Algeria — 3-0 — 4 corners (Argentina 2, Algeria 2) — blowout — skip
 
-Claude generates all update commands at once using the template below.
+Claude generates all update commands at once.
 
 ---
 
-## UPDATE COMMAND TEMPLATE
+## STEP 6 — RUN IN POWERSHELL
 
-When Claude receives match results it generates this command for each match.
+Claude generates commands in PowerShell format using backtick continuation.
+Copy paste each command exactly as Claude generates it.
 
-For matches where a bet was placed:
+MATCH WITH BET — PowerShell format:
 
-    python main.py update \
-      --home [Home] \
-      --away [Away] \
-      --home-score [X] \
-      --away-score [X] \
-      --total-corners [X] \
-      --home-corners [X] \
-      --away-corners [X] \
-      --group [X] \
-      --game-state [normal/underdog_scored_early/blowout] \
-      --notes "[one line summary]" \
-      --market [total_over/total_under/ah_corners/1h_over] \
-      --selection "[e.g. Over 9.5]" \
-      --odds [X.XXX] \
-      --stake 1.00 \
-      --bet-outcome [won/lost/void] \
-      --tier [tier_1/tier_2/tier_3] \
-      --confidence [high/medium/low] \
-      --line [X.X] \
-      --home-avg [X.XX] \
-      --away-avg [X.XX] \
-      --lesson "[lesson learned from this match]" \
-      --lesson-category [baseline_accuracy/market_selection/style_classification/game_state/skip_accuracy] \
-      --rule "[new rule added to model if any]"
+    python main.py update `
+      --home [Home] `
+      --away [Away] `
+      --home-score [X] `
+      --away-score [X] `
+      --total-corners [X] `
+      --home-corners [X] `
+      --away-corners [X] `
+      --group [X] `
+      --game-state [normal/underdog_scored_early/blowout] `
+      --notes "[one line summary]" `
+      --market [total_over/total_under/ah_corners/1h_over/1h_under] `
+      --selection "[e.g. Over 9.5]" `
+      --odds [X.XXX] `
+      --stake 1.00 `
+      --bet-outcome [won/lost/void] `
+      --tier [tier_1/tier_2/tier_3] `
+      --confidence [high/medium/low] `
+      --line [X.X] `
+      --home-avg [X.XX] `
+      --away-avg [X.XX] `
+      --lesson "[lesson learned]" `
+      --lesson-category [baseline_accuracy/market_selection/style_classification/game_state/skip_accuracy] `
+      --rule "[new rule added to model]"
 
-For skipped matches:
+SKIPPED MATCH — PowerShell format:
 
-    python main.py update \
-      --home [Home] \
-      --away [Away] \
-      --home-score [X] \
-      --away-score [X] \
-      --total-corners [X] \
-      --home-corners [X] \
-      --away-corners [X] \
-      --group [X] \
-      --game-state [normal/underdog_scored_early/blowout] \
+    python main.py update `
+      --home [Home] `
+      --away [Away] `
+      --home-score [X] `
+      --away-score [X] `
+      --total-corners [X] `
+      --home-corners [X] `
+      --away-corners [X] `
+      --group [X] `
+      --game-state [normal/underdog_scored_early/blowout] `
       --notes "[one line summary]"
 
----
+OR use single line format — no continuation needed:
 
-## CSV SCHEMA REFERENCE
+    python main.py update --home [Home] --away [Away] --home-score [X] --away-score [X] --total-corners [X] --home-corners [X] --away-corners [X] --group [X] --game-state [normal] --notes "[summary]"
 
-Claude uses these schemas to generate correct update commands:
-
-matches.csv
-    match_id, date, group, home_team, away_team, home_score, away_score,
-    total_corners, home_corners, away_corners, game_state, notes
-
-teams.csv
-    team_id, team_name, confederation, group, attack_type, defensive_type,
-    avg_corners_taken, avg_corners_conceded, matches_played, last_updated, notes
-
-bets.csv
-    bet_id, match_id, date, home_team, away_team, market, selection,
-    odds, stake, outcome, profit_loss, notes
-
-predictions.csv
-    prediction_id, match_id, date, home_team, away_team, home_avg_corners,
-    away_avg_corners, combined_baseline, tier, recommended_market,
-    recommended_direction, confidence, line_offered, bet_placed, outcome, notes
-
-lessons.csv
-    lesson_id, match_id, date, category, lesson, rule_added, model_version
-
----
-
-## STEP 6 — RUN IN CLAUDE CODE
-
-Copy paste each command Claude generates:
-
-    python main.py update [all args auto-filled by Claude]
-
-Then one git push for the whole day:
+Then push to GitHub:
 
     git add data/
     git commit -m "data: matchday [X] results"
@@ -163,16 +134,22 @@ If anything looks wrong tell Claude and fix before next session.
 
 ---
 
+## UPDATE COMMAND TEMPLATE FOR CLAUDE
+
+When Claude receives results it always generates PowerShell format
+using backtick ` for line continuation — never backslash \.
+
+---
+
 ## QUICK RULES
 
 - Max 1 bet per match
+- Max 2 bets per day unless 3+ strong independent edges exist
 - Default market is always Asian Total Corners Over/Under
+- Never AH Corners when opponent has counter-threat
 - Pre-match only — no live betting
+- No multis — single bets only
 - Skip if no clean edge — never force a bet
-- At end of day, generate one multi bet using the best Over/Under selection 
-  from each match (highest confidence only) — no AH corners in multis
-- After each matchday, Claude will suggest model enhancements or new rules 
-  based on patterns observed — review and confirm before adding to MODEL.md
 
 ---
 
@@ -198,26 +175,14 @@ If anything looks wrong tell Claude and fix before next session.
 
 ---
 
-## ATTACK TYPE REFERENCE
+## VALID VALUES
 
-| Type | Corner Output | Examples |
-|---|---|---|
-| wide_possession | High 7+ per game | Spain, France, Belgium |
-| central_possession | Medium 4-6 per game | Argentina, Norway |
-| direct_physical | Low 3-5 per game | Uruguay, Iran, Saudi Arabia |
-| counter_attacking | Low winning, high chasing | Egypt, Senegal, Algeria |
-| set_piece_specialist | Adds 1-2 regardless of style | Iraq, New Zealand |
-
----
-
-## DEFENSIVE TYPE REFERENCE
-
-| Type | Effect on Corners |
-|---|---|
-| pure_deep_block | Maximum corners for dominant team |
-| compact_mid_block | Moderate corners |
-| open_attack_minded | End-to-end both teams contribute |
-| high_press | Fewer corners transitions-based |
+    market:     total_over / total_under / ah_corners / 1h_over / 1h_under
+    game_state: normal / underdog_scored_early / blowout
+    tier:       tier_1 / tier_2 / tier_3
+    confidence: high / medium / low / skip
+    category:   baseline_accuracy / market_selection / style_classification
+                game_state / skip_accuracy
 
 ---
 
@@ -226,7 +191,6 @@ If anything looks wrong tell Claude and fix before next session.
 | Task | Time |
 |---|---|
 | Run briefing and paste output | 1 minute |
-| Paste GUIDE.md | 30 seconds |
 | Paste today's matches | 10 seconds |
 | Screenshot all lines | 1 minute |
 | Place bets | 1 minute |

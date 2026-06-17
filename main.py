@@ -97,7 +97,7 @@ Commands:
     elif args.command == 'update':
         required = ['home', 'away', 'home_score', 'away_score',
                     'total_corners', 'home_corners', 'away_corners', 'group']
-        missing = [r for r in required if not getattr(args, r.replace('-', '_'))]
+        missing = [r for r in required if getattr(args, r, None) is None]
         if missing:
             print(f"❌ update missing required args: {', '.join(missing)}")
             print("\n  Minimum example:")
