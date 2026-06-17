@@ -1,0 +1,13 @@
+team_id,team_name,confederation,group,attack_type,defensive_type,avg_corners_taken,avg_corners_conceded,matches_played,last_updated,notes
+001,Spain,UEFA,H,wide_possession,high_press,7.80,1.80,1,2026-06-15,Dominant possession wide threats Porro Cucurella Baena Torres
+002,Cape Verde,CAF,H,direct_physical,pure_deep_block,2.50,6.50,1,2026-06-15,Heroic GK Vozinha deep block zero attacking threat
+003,Belgium,UEFA,G,wide_possession,mid_block,6.50,3.20,1,2026-06-15,Doku Trossard De Bruyne wide threats fragile defence
+004,Egypt,CAF,G,counter_attacking,mid_block,3.80,5.20,1,2026-06-15,Salah Marmoush counter threat scored early vs Belgium
+005,Saudi Arabia,AFC,H,direct_physical,mid_block,3.50,4.80,1,2026-06-15,Al-Dawsari counter threat set piece danger scored from corner
+006,Uruguay,CONMEBOL,H,central_possession,high_press,4.20,3.80,1,2026-06-15,Bielsa vertical pressing system not wide probing
+007,Iran,AFC,G,direct_physical,mid_block,3.00,4.50,1,2026-06-15,Taremi central focused not wide probing
+008,New Zealand,OFC,G,set_piece_specialist,mid_block,4.30,3.70,1,2026-06-15,Chris Wood aerial threat active corner weapon
+009,France,UEFA,I,wide_possession,high_press,7.80,2.30,1,2026-06-16,Mbappe Olise Barcola Dembele wide threats Kounde overlapping
+010,Senegal,CAF,I,counter_attacking,compact_mid_block,2.80,5.20,1,2026-06-16,Mane Jackson counter threat disciplined mid-block
+011,Iraq,AFC,I,set_piece_specialist,mid_block,3.50,4.50,1,2026-06-16,Set piece danger active corners weapon
+012,Norway,UEFA,I,central_possession,high_press,5.00,3.20,1,2026-06-16,Haaland central scorer Odegaard playmaker scores through middle

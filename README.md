@@ -1,1 +1,0 @@
-# world-cup-corners-model

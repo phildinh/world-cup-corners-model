@@ -1,0 +1,7 @@
+lesson_id,match_id,date,category,lesson,rule_added,model_version
+001,001,2026-06-15,baseline_accuracy,Wide possession vs pure deep block delivered 13 corners baseline was 10.3,Tier 1 setup is most reliable — always bet when all three conditions met,v1.0
+002,002,2026-06-15,market_selection,Belgium 2 Egypt 7 — early goal completely flipped corners battle AH corners destroyed,Never use AH corners when opponent has counter-threat — use total over instead,v2.0
+003,003,2026-06-15,game_state,Saudi scored early Uruguay chased wide 18 corners — direct team assumption wrong when game state flips,Underdog scores early = favourite chases wide = corners explode regardless of style,v2.0
+004,004,2026-06-15,style_classification,Iran vs NZ only 4-5 corners — two direct teams kept it low despite both needing a win,Style beats urgency every time — direct vs direct = low corners regardless of context,v3.0
+005,005,2026-06-16,baseline_accuracy,France vs Senegal 10 corners — baseline 10.6 was accurate tight first half but built across 90 mins,Tier 2 setups deliver when wide attack style confirmed even vs compact mid-block,v3.0
+006,006,2026-06-16,style_classification,Iraq vs Norway 7 corners — Haaland central scorer Norway scores through middle not wide,Central possession team scores through middle = low corners even in dominant win,v3.0

@@ -1,0 +1,7 @@
+match_id,date,group,home_team,away_team,home_score,away_score,total_corners,home_corners,away_corners,game_state,notes
+001,2026-06-15,H,Spain,Cape Verde,0,0,13,10,3,normal,Spain dominant possession Cape Verde pure deep block heroic GK
+002,2026-06-15,G,Belgium,Egypt,1,1,9,2,7,underdog_scored_early,Egypt scored 19th min game opened up Belgium chased centrally
+003,2026-06-15,H,Saudi Arabia,Uruguay,0,0,18,7,11,underdog_scored_early,Saudi scored 41st min from corner Uruguay chased wide entire 2nd half
+004,2026-06-15,G,Iran,New Zealand,1,1,5,3,2,normal,Two direct teams low tempo NZ scored 7th Iran equalised 32nd
+005,2026-06-16,I,France,Senegal,3,1,10,6,4,normal,Tight first half 0-0 Mbappe brace sealed it Senegal mid-block disciplined
+006,2026-06-16,I,Iraq,Norway,1,4,7,3,4,normal,Haaland brace scored centrally Norway dominant but low corners
