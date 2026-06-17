@@ -3,6 +3,7 @@ import os
 from datetime import date
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), '..', 'data')
+ROOT_DIR = os.path.join(os.path.dirname(__file__), '..')
 
 def load_csv(filename):
     path = os.path.join(DATA_DIR, filename)
@@ -41,16 +42,17 @@ def generate_briefing():
     market_stats['win_rate'] = round(
         (market_stats['won'] / market_stats['bets']) * 100, 1)
 
-    # ── OUTPUT ──────────────────────────────────────
+    # ── FORMATTING ──────────────────────────────────
     divider = "=" * 60
     thin = "-" * 60
 
+    # ── HEADER ──────────────────────────────────────
     print(f"\n{divider}")
     print("  WORLD CUP 2026 — CORNERS MODEL BRIEFING")
     print(f"  Generated: {date.today().isoformat()}")
     print(divider)
 
-    # RECORD
+    # ── BETTING RECORD ──────────────────────────────
     print("\n  BETTING RECORD")
     print(thin)
     print(f"  Bets:          {total_bets} ({won}W {lost}L)")
@@ -59,7 +61,7 @@ def generate_briefing():
     print(f"  ROI:           {'+' if roi >= 0 else ''}{roi}%")
     print(f"  Skips:         {total_skips} total — {correct_skips} correct ({skip_accuracy}%)")
 
-    # MARKET BREAKDOWN
+    # ── MARKET BREAKDOWN ────────────────────────────
     print("\n  MARKET BREAKDOWN")
     print(thin)
     for _, row in market_stats.iterrows():
@@ -69,7 +71,7 @@ def generate_briefing():
               f"Win rate: {row['win_rate']}%  "
               f"P&L: {'+' if pl >= 0 else ''}{round(pl, 3)}")
 
-    # ALL BETS PLACED
+    # ── ALL BETS PLACED ─────────────────────────────
     print("\n  ALL BETS PLACED")
     print(thin)
     for _, row in bets.iterrows():
@@ -79,17 +81,18 @@ def generate_briefing():
               f"@ {row['odds']}  {row['outcome'].upper()}  "
               f"P&L: {'+' if row['profit_loss'] >= 0 else ''}{row['profit_loss']}")
 
-    # ALL MATCH RESULTS
+    # ── ALL MATCH RESULTS ───────────────────────────
     print("\n  ALL MATCH RESULTS")
     print(thin)
     for _, row in matches.iterrows():
         print(f"  {row['date']}  "
-              f"{row['home_team']} {row['home_score']}-{row['away_score']} {row['away_team']:<15}  "
+              f"{row['home_team']} {row['home_score']}-{row['away_score']} "
+              f"{row['away_team']:<15}  "
               f"Corners: {row['total_corners']} "
               f"({row['home_corners']}H / {row['away_corners']}A)  "
               f"State: {row['game_state']}")
 
-    # TEAM CORNER AVERAGES — FULL TABLE
+    # ── TEAM CORNER AVERAGES ─────────────────────────
     print("\n  TEAM CORNER AVERAGES")
     print(thin)
     print(f"  {'Team':<20} {'Taken':>6} {'Conceded':>9} {'Played':>7}  "
@@ -104,7 +107,7 @@ def generate_briefing():
               f"{row['attack_type']:<25} "
               f"{row['defensive_type']}")
 
-    # ALL LESSONS LEARNED
+    # ── ALL LESSONS LEARNED ──────────────────────────
     print("\n  ALL LESSONS LEARNED")
     print(thin)
     for _, row in lessons.iterrows():
@@ -113,7 +116,7 @@ def generate_briefing():
         print(f"      Rule:   {row['rule_added']}")
         print()
 
-    # ALL PREDICTIONS LOG
+    # ── ALL PREDICTIONS LOG ──────────────────────────
     print("\n  ALL PREDICTIONS LOG")
     print(thin)
     print(f"  {'Match':<30} {'Baseline':>9} {'Line':>5} {'Tier':<12} "
@@ -129,13 +132,90 @@ def generate_briefing():
               f"{bet_placed:>5}  "
               f"{row['outcome']}")
 
-    # MODEL INFO
+    # ── MODEL VERSION HISTORY ────────────────────────
+    try:
+        versions = load_csv('model_versions.csv')
+        print(f"\n  MODEL VERSION HISTORY")
+        print(thin)
+        for _, row in versions.iterrows():
+            print(f"  {row['version']}  {row['date']}  "
+                  f"Matches: {row['matches_at_change']}  "
+                  f"Win rate: {row['win_rate_at_change']}  "
+                  f"ROI: {row['roi_at_change']}")
+            print(f"    Changed: {row['rule_changed']}")
+            print(f"    Trigger: {row['trigger']}")
+            print()
+    except Exception:
+        pass
+
+    # ── FULL MODEL FRAMEWORK ─────────────────────────
+    try:
+        model_path = os.path.join(ROOT_DIR, 'MODEL.md')
+        with open(model_path, 'r') as f:
+            model_content = f.read()
+        print(f"\n{divider}")
+        print("  FULL MODEL FRAMEWORK")
+        print(divider)
+        print(model_content)
+    except Exception:
+        print("\n  WARNING: MODEL.md not found")
+
+    # ── WORKFLOW REFERENCE ───────────────────────────
     print(f"\n{divider}")
+    print("  WORKFLOW REFERENCE")
+    print(divider)
+    print("""
+  HOW TO USE THIS BRIEFING
+  Paste entire output into Claude Chat — it loads full context instantly.
+  Then give Claude today's matches and send Bet365 screenshots per match.
+  If Claude cannot read a screenshot it will ask you to verify the numbers.
+
+  RESULTS FORMAT TO GIVE CLAUDE AFTER MATCHES:
+  Results:
+  1. [Home] vs [Away] — [score] — [total] corners ([Home] X, [Away] X) — [game state] — [won/lost/skip]
+  2. [Home] vs [Away] — [score] — [total] corners ([Home] X, [Away] X) — [game state] — [won/lost/skip]
+
+  COMMAND TEMPLATE — MATCH WITH BET:
+  python main.py update
+    --home [Home] --away [Away]
+    --home-score [X] --away-score [X]
+    --total-corners [X] --home-corners [X] --away-corners [X]
+    --group [X] --game-state [normal/underdog_scored_early/blowout]
+    --notes "[one line summary]"
+    --market [total_over/total_under/ah_corners/1h_over/1h_under]
+    --selection "[e.g. Over 9.5]"
+    --odds [X.XXX] --stake 1.00 --bet-outcome [won/lost/void]
+    --tier [tier_1/tier_2/tier_3] --confidence [high/medium/low]
+    --line [X.X] --home-avg [X.XX] --away-avg [X.XX]
+    --lesson "[lesson learned]"
+    --lesson-category [baseline_accuracy/market_selection/
+                       style_classification/game_state/skip_accuracy]
+    --rule "[new rule added to model]"
+
+  COMMAND TEMPLATE — SKIPPED MATCH:
+  python main.py update
+    --home [Home] --away [Away]
+    --home-score [X] --away-score [X]
+    --total-corners [X] --home-corners [X] --away-corners [X]
+    --group [X] --game-state [normal/underdog_scored_early/blowout]
+    --notes "[one line summary]"
+
+  VALID VALUES:
+  market:     total_over / total_under / ah_corners / 1h_over / 1h_under
+  game_state: normal / underdog_scored_early / blowout
+  tier:       tier_1 / tier_2 / tier_3
+  confidence: high / medium / low / skip
+  category:   baseline_accuracy / market_selection / style_classification
+              game_state / skip_accuracy
+  """)
+
+    # ── FOOTER ──────────────────────────────────────
+    print(divider)
     print(f"  MODEL: v3.0  |  MATCHES LOGGED: {len(matches)}  "
           f"|  TEAMS TRACKED: {len(teams)}")
     print(f"  Paste this entire output into Claude Chat to load full context.")
-    print(f"{divider}\n")
-    print(f" For update commands and workflow see GUIDE.md ")
+    print(divider + "\n")
+
 
 if __name__ == '__main__':
     generate_briefing()

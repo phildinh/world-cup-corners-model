@@ -1,0 +1,4 @@
+version,date,rule_changed,old_value,new_value,trigger,matches_at_change,win_rate_at_change,roi_at_change
+v1.0,2026-06-15,initial_framework,none,created,tournament start,0,0.0%,0.0%
+v2.0,2026-06-15,market_selection,none,added AH corners and 1H markets,Belgium AH loss,2,50.0%,-5.0%
+v3.0,2026-06-16,attack_style_classification,none,added HOW team scores rule,Iraq Norway low corners,6,66.7%,+23.3%
