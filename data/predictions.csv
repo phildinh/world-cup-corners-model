@@ -1,9 +1,9 @@
-prediction_id,match_id,date,home_team,away_team,home_avg_corners,away_avg_corners,combined_baseline,tier,recommended_market,recommended_direction,confidence,line_offered,bet_placed,skip_lean,shadow_bet,shadow_outcome,outcome,notes
-001,001,2026-06-15,Spain,Cape Verde,7.80,2.50,10.30,tier_1,total_over,over,high,9.5,TRUE,,FALSE,,won,Wide possession vs pure deep block baseline 0.8 above line
-002,002,2026-06-15,Belgium,Egypt,6.50,3.80,10.30,tier_2,ah_corners,belgium,medium,9.5,TRUE,,FALSE,,lost,Wrong market chosen should have been total over
-003,003,2026-06-15,Saudi Arabia,Uruguay,3.50,4.20,7.70,tier_3,skip,skip,skip,8.5,FALSE,over,TRUE,won,correct,Line at baseline no edge — correct skip
-004,004,2026-06-15,Iran,New Zealand,3.00,4.30,7.30,tier_3,skip,skip,skip,8.0,FALSE,under,TRUE,won,correct,Two direct teams low corners confirmed 4-5 total
-005,005,2026-06-16,France,Senegal,7.80,2.80,10.60,tier_2,total_over,over,high,9.5,TRUE,,FALSE,,won,Wide possession vs compact mid-block baseline 1.1 above line
-006,006,2026-06-16,Iraq,Norway,3.50,5.00,8.50,tier_3,skip,skip,skip,8.5,FALSE,under,TRUE,won,correct,Central scorer Haaland direct team low corners confirmed 7 total
-007,007,2026-06-17,Argentina,Algeria,4.20,3.80,8.00,tier_3,skip,skip,skip,8.0,FALSE,under,TRUE,won,correct,Argentina central scorers blowout 4 corners confirmed
-008,008,2026-06-17,Austria,Jordan,4.00,4.30,8.30,tier_3,skip,skip,skip,9.0,FALSE,under,TRUE,won,correct,Austria blowout 7 corners line 9.0 above baseline skip correct
+prediction_id,match_id,date,home_team,away_team,home_avg_corners,away_avg_corners,combined_baseline,tier,recommended_market,recommended_direction,confidence,line_offered,bet_placed,skip_lean,shadow_bet,shadow_outcome,data_confidence,counter_threat,match_type,outcome,notes
+001,001,2026-06-15,Spain,Cape Verde,7.80,2.50,10.30,tier_1,total_over,over,high,9.5,TRUE,,FALSE,,high,no,wide_vs_deep,won,Wide possession vs pure deep block baseline 0.8 above line
+002,002,2026-06-15,Belgium,Egypt,6.50,3.80,10.30,tier_2,ah_corners,belgium,medium,9.5,TRUE,,FALSE,,high,yes,wide_vs_counter,lost,Wrong market chosen should have been total over
+003,003,2026-06-15,Saudi Arabia,Uruguay,3.50,4.20,7.70,tier_3,skip,skip,skip,8.5,FALSE,over,TRUE,won,high,no,mixed,correct,Line at baseline no edge — correct skip
+004,004,2026-06-15,Iran,New Zealand,3.00,4.30,7.30,tier_3,skip,skip,skip,8.0,FALSE,under,TRUE,won,high,no,mixed,correct,Two direct teams low corners confirmed 4-5 total
+005,005,2026-06-16,France,Senegal,7.80,2.80,10.60,tier_2,total_over,over,high,9.5,TRUE,,FALSE,,high,yes,wide_vs_counter,won,Wide possession vs compact mid-block baseline 1.1 above line
+006,006,2026-06-16,Iraq,Norway,3.50,5.00,8.50,tier_3,skip,skip,skip,8.5,FALSE,under,TRUE,won,high,no,mixed,correct,Central scorer Haaland direct team low corners confirmed 7 total
+007,007,2026-06-17,Argentina,Algeria,4.20,3.80,8.00,tier_3,skip,skip,skip,8.0,FALSE,under,TRUE,won,high,yes,mixed,correct,Argentina central scorers blowout 4 corners confirmed
+008,008,2026-06-17,Austria,Jordan,4.00,4.30,8.30,tier_3,skip,skip,skip,9.0,FALSE,under,TRUE,won,high,auto,mixed,correct,Austria blowout 7 corners line 9.0 above baseline skip correct

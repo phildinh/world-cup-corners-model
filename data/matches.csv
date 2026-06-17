@@ -1,9 +1,9 @@
-match_id,date,group,home_team,away_team,home_score,away_score,total_corners,home_corners,away_corners,game_state,notes
-001,2026-06-15,H,Spain,Cape Verde,0,0,13,10,3,normal,Spain dominant possession Cape Verde pure deep block heroic GK
-002,2026-06-15,G,Belgium,Egypt,1,1,9,2,7,underdog_scored_early,Egypt scored 19th min game opened up Belgium chased centrally
-003,2026-06-15,H,Saudi Arabia,Uruguay,0,0,18,7,11,underdog_scored_early,Saudi scored 41st min from corner Uruguay chased wide entire 2nd half
-004,2026-06-15,G,Iran,New Zealand,1,1,5,3,2,normal,Two direct teams low tempo NZ scored 7th Iran equalised 32nd
-005,2026-06-16,I,France,Senegal,3,1,10,6,4,normal,Tight first half 0-0 Mbappe brace sealed it Senegal mid-block disciplined
-006,2026-06-16,I,Iraq,Norway,1,4,7,3,4,normal,Haaland brace scored centrally Norway dominant but low corners
-007,2026-06-17,J,Argentina,Algeria,3,0,4,2,2,blowout,Argentina won 3-0 blowout central scorers low corners confirmed
-008,2026-06-17,J,Austria,Jordan,3,1,7,4,3,blowout,Austria won 3-1 blowout low corners confirmed baseline 8.3 line 9.0 skip correct
+match_id,date,group,home_team,away_team,home_score,away_score,total_corners,home_corners,away_corners,game_state,match_type,notes
+001,2026-06-15,H,Spain,Cape Verde,0,0,13,10,3,normal,wide_vs_deep,Spain dominant possession Cape Verde pure deep block heroic GK
+002,2026-06-15,G,Belgium,Egypt,1,1,9,2,7,underdog_scored_early,wide_vs_counter,Egypt scored 19th min game opened up Belgium chased centrally
+003,2026-06-15,H,Saudi Arabia,Uruguay,0,0,18,7,11,underdog_scored_early,mixed,Saudi scored 41st min from corner Uruguay chased wide entire 2nd half
+004,2026-06-15,G,Iran,New Zealand,1,1,5,3,2,normal,mixed,Two direct teams low tempo NZ scored 7th Iran equalised 32nd
+005,2026-06-16,I,France,Senegal,3,1,10,6,4,normal,wide_vs_counter,Tight first half 0-0 Mbappe brace sealed it Senegal mid-block disciplined
+006,2026-06-16,I,Iraq,Norway,1,4,7,3,4,normal,mixed,Haaland brace scored centrally Norway dominant but low corners
+007,2026-06-17,J,Argentina,Algeria,3,0,4,2,2,blowout,mixed,Argentina won 3-0 blowout central scorers low corners confirmed
+008,2026-06-17,J,Austria,Jordan,3,1,7,4,3,blowout,mixed,Austria won 3-1 blowout low corners confirmed baseline 8.3 line 9.0 skip correct

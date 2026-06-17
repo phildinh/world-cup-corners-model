@@ -82,6 +82,16 @@ When generating update commands for Claude Chat:
 - If tier=tier_2 → always set --stake 1.00
 - If no bet placed → no stake argument needed
 
+## v4.0 Flags (all optional with sensible defaults)
+- --data-confidence [high/medium/low]  → LOW auto-demotes tier
+- --counter-threat [yes/no/auto]       → auto derives from team DB
+- --counter-scorer                     → flag if opponent scored on counter
+- --transition-xg [value]              → opponent transition xG (>0.3 = threat)
+- --altitude [yes/no]                  → baseline -1.0 at altitude venues
+- --venue "[stadium name]"             → auto-detects altitude
+- --debut-opponent                     → opponent -10% corners, treat as deep block
+- --match-type [type]                  → auto-derived or manual override
+
 ## Schema Rules
 - Every row appended must match exact column order in each CSV
 - Run scripts/update_match.py — never edit CSVs manually
