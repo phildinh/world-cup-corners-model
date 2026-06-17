@@ -206,7 +206,7 @@ If anything looks wrong tell Claude and fix before next session.
 | central_possession | Medium 4-6 per game | Argentina, Norway |
 | direct_physical | Low 3-5 per game | Uruguay, Iran, Saudi Arabia |
 | counter_attacking | Low winning, high chasing | Egypt, Senegal, Algeria |
-| set_piece_specialist | Adds 1-2 regardless of style | Norway, Iraq, New Zealand |
+| set_piece_specialist | Adds 1-2 regardless of style | Iraq, New Zealand |
 
 ---
 
