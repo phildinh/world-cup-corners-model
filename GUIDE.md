@@ -171,6 +171,8 @@ If anything looks wrong tell Claude and fix before next session.
 - Skip if no clean edge — never force a bet
 - At end of day, generate one multi bet using the best Over/Under selection 
   from each match (highest confidence only) — no AH corners in multis
+- After each matchday, Claude will suggest model enhancements or new rules 
+  based on patterns observed — review and confirm before adding to MODEL.md
 
 ---
 
