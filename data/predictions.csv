@@ -8,3 +8,4 @@ prediction_id,match_id,date,home_team,away_team,home_avg_corners,away_avg_corner
 007,007,2026-06-17,Argentina,Algeria,4.2,3.8,8.0,tier_3,skip,skip,skip,8.0,False,under,True,won,high,yes,mixed,correct,Argentina central scorers blowout 4 corners confirmed
 008,008,2026-06-17,Austria,Jordan,4.0,4.3,8.3,tier_3,skip,skip,skip,9.0,False,under,True,won,high,auto,mixed,correct,Austria blowout 7 corners line 9.0 above baseline skip correct
 009,009,2026-06-18,Portugal,DR Congo,6.0,2.5,8.25,tier_3,total_over,Over 9.5,medium,9.5,True,,False,,low,yes,wide_vs_counter,lost,Portugal dominated territory but Congo counter-threat via Wissa kept corners low. LOW data confidence + counter-threat confirmed as decisive factor.
+010,012,2026-06-18,England,Croatia,7.5,2.5,10.0,tier_2,total_over,Over 9.0,medium,9.0,True,,False,,high,no,wide_vs_deep,won,England wide possession dominated. Croatia sat deep with no counter-threat. 10 corners confirmed clean Tier 2 analysis.

@@ -10,3 +10,4 @@ match_id,date,group,home_team,away_team,home_score,away_score,total_corners,home
 009,2026-06-18,K,Portugal,DR Congo,1,1,9,5,4,normal,wide_vs_counter,Portugal dominated territory but Congo counter-threat via Wissa kept corners low. LOW data confidence + counter-threat confirmed as decisive factor.
 010,2026-06-18,K,Uzbekistan,Colombia,1,3,7,4,3,normal,central_vs_deep,7 corners confirmed altitude + debut modifier was correct. Colombia central possession through James. Under lean validated.
 011,2026-06-18,L,Ghana,Panama,1,0,4,2,2,normal,mixed,Only 4 corners total. Massive under. Baseline at line was correct signal to skip. Both teams direct and physical.
+012,2026-06-18,L,England,Croatia,4,2,10,8,2,normal,wide_vs_deep,England wide possession dominated. Croatia sat deep with no counter-threat. 10 corners confirmed clean Tier 2 analysis.
