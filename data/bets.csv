@@ -1,4 +1,5 @@
 bet_id,match_id,date,home_team,away_team,market,selection,odds,stake,outcome,profit_loss,notes
-001,001,2026-06-15,Spain,Cape Verde,total_over,Over 9.5,1.850,2.00,won,1.700,Tier 1 wide possession vs pure deep block
-002,002,2026-06-15,Belgium,Egypt,ah_corners,Belgium -3.0,1.950,1.00,lost,-1.000,Wrong market Egypt counter-threat flipped corners battle
-003,005,2026-06-16,France,Senegal,total_over,Over 9.5,1.850,1.00,won,0.850,Tier 2 wide possession vs compact mid-block
+001,001,2026-06-15,Spain,Cape Verde,total_over,Over 9.5,1.85,2.0,won,1.7,Tier 1 wide possession vs pure deep block
+002,002,2026-06-15,Belgium,Egypt,ah_corners,Belgium -3.0,1.95,1.0,lost,-1.0,Wrong market Egypt counter-threat flipped corners battle
+003,005,2026-06-16,France,Senegal,total_over,Over 9.5,1.85,1.0,won,0.85,Tier 2 wide possession vs compact mid-block
+004,009,2026-06-18,Portugal,DR Congo,total_over,Over 9.5,2.0,1.0,lost,-1.0,Portugal dominated territory but Congo counter-threat via Wissa kept corners low. LOW data confidence + counter-threat confirmed as decisive factor.
