@@ -9,5 +9,5 @@ team_id,team_name,confederation,group,attack_type,defensive_type,avg_corners_tak
 8,New Zealand,OFC,G,set_piece_specialist,mid_block,3.15,3.35,2,2026-06-18,Chris Wood aerial threat active corner weapon
 9,France,UEFA,I,wide_possession,high_press,6.9,3.15,2,2026-06-18,Mbappe Olise Barcola Dembele wide threats Kounde overlapping
 10,Senegal,CAF,I,counter_attacking,compact_mid_block,3.4,5.6,2,2026-06-18,Mane Jackson counter threat disciplined mid-block
-11,Iraq,AFC,I,set_piece_specialist,mid_block,3.5,4.5,1,2026-06-16,Set piece danger active corners weapon
-12,Norway,UEFA,I,central_possession,high_press,5.0,3.2,1,2026-06-16,Haaland central scorer Odegaard playmaker scores through middle
+11,Iraq,AFC,I,set_piece_specialist,mid_block,3.25,4.25,2,2026-06-18,Set piece danger active corners weapon
+12,Norway,UEFA,I,central_possession,high_press,4.5,3.1,2,2026-06-18,Haaland central scorer Odegaard playmaker scores through middle
