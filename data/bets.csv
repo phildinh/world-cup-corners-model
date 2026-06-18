@@ -4,3 +4,5 @@ bet_id,match_id,date,home_team,away_team,market,selection,odds,stake,outcome,pro
 003,005,2026-06-16,France,Senegal,total_over,Over 9.5,1.85,1.0,won,0.85,Tier 2 wide possession vs compact mid-block
 004,009,2026-06-18,Portugal,DR Congo,total_over,Over 9.5,2.0,1.0,lost,-1.0,Portugal dominated territory but Congo counter-threat via Wissa kept corners low. LOW data confidence + counter-threat confirmed as decisive factor.
 005,012,2026-06-18,England,Croatia,total_over,Over 9.0,1.9,1.0,won,0.9,England wide possession dominated. Croatia sat deep with no counter-threat. 10 corners confirmed clean Tier 2 analysis.
+006,013,2026-06-18,Spain,Cape Verde,total_over,Over 9.5,1.85,2.0,won,1.7,Spain dominated with 27 shots but Vozinha (40yo GK) made 7 saves. Cape Verde pure deep block delivered exactly as modelled.
+007,014,2026-06-18,Belgium,Egypt,ah_corners,Belgium -3.0,1.95,1.0,lost,-1.0,Egypt scored in 19th min via Ashour. Belgium chased but Egypt dominated corners on the counter. AH corners destroyed.
