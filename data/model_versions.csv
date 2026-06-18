@@ -3,3 +3,4 @@ v1.0,2026-06-15,initial_framework,none,created,tournament start,0,0.0%,0.0%
 v2.0,2026-06-15,market_selection,none,added AH corners and 1H markets,Belgium AH loss,2,50.0%,-5.0%
 v3.0,2026-06-16,attack_style_classification,none,added HOW team scores rule,Iraq Norway low corners,6,66.7%,+23.3%
 v4.0,2026-06-17,data_hierarchy_counter_threat_altitude_debut_odds_floor_match_type,added HOW team scores rule,Added: data source hierarchy + counter-threat scoring + altitude modifier + debut opponent + odds floor + match type tagging,DR Congo baseline ambiguity and research gaps identified,8,66.7%,+38.8%
+v4.1,2026-06-18,post_match_notes_confidence_score_counter_threat_refinement,v4.0 rules,Added: post-match research notes + confidence score 0-100 + counter-threat refined rules,model review after June 17-18 matches,12,60.0%,+8.3%

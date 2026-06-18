@@ -1,13 +1,14 @@
-match_id,date,group,home_team,away_team,home_score,away_score,total_corners,home_corners,away_corners,game_state,match_type,notes
-001,2026-06-15,H,Spain,Cape Verde,0,0,13,10,3,normal,wide_vs_deep,Spain dominant possession Cape Verde pure deep block heroic GK
-002,2026-06-15,G,Belgium,Egypt,1,1,9,2,7,underdog_scored_early,wide_vs_counter,Egypt scored 19th min game opened up Belgium chased centrally
-003,2026-06-15,H,Saudi Arabia,Uruguay,0,0,18,7,11,underdog_scored_early,mixed,Saudi scored 41st min from corner Uruguay chased wide entire 2nd half
-004,2026-06-15,G,Iran,New Zealand,1,1,5,3,2,normal,mixed,Two direct teams low tempo NZ scored 7th Iran equalised 32nd
-005,2026-06-16,I,France,Senegal,3,1,10,6,4,normal,wide_vs_counter,Tight first half 0-0 Mbappe brace sealed it Senegal mid-block disciplined
-006,2026-06-16,I,Iraq,Norway,1,4,7,3,4,normal,mixed,Haaland brace scored centrally Norway dominant but low corners
-007,2026-06-17,J,Argentina,Algeria,3,0,4,2,2,blowout,mixed,Argentina won 3-0 blowout central scorers low corners confirmed
-008,2026-06-17,J,Austria,Jordan,3,1,7,4,3,blowout,mixed,Austria won 3-1 blowout low corners confirmed baseline 8.3 line 9.0 skip correct
-009,2026-06-18,K,Portugal,DR Congo,1,1,9,5,4,normal,wide_vs_counter,Portugal dominated territory but Congo counter-threat via Wissa kept corners low. LOW data confidence + counter-threat confirmed as decisive factor.
-010,2026-06-18,K,Uzbekistan,Colombia,1,3,7,4,3,normal,central_vs_deep,7 corners confirmed altitude + debut modifier was correct. Colombia central possession through James. Under lean validated.
-011,2026-06-18,L,Ghana,Panama,1,0,4,2,2,normal,mixed,Only 4 corners total. Massive under. Baseline at line was correct signal to skip. Both teams direct and physical.
-012,2026-06-18,L,England,Croatia,4,2,10,8,2,normal,wide_vs_deep,England wide possession dominated. Croatia sat deep with no counter-threat. 10 corners confirmed clean Tier 2 analysis.
+match_id,date,group,home_team,away_team,home_score,away_score,total_corners,home_corners,away_corners,game_state,match_type,notes,match_notes
+001,2026-06-15,H,Spain,Cape Verde,0,0,13,10,3,normal,wide_vs_deep,Spain dominant possession Cape Verde pure deep block heroic GK,
+002,2026-06-15,G,Belgium,Egypt,1,1,9,2,7,underdog_scored_early,wide_vs_counter,Egypt scored 19th min game opened up Belgium chased centrally,
+003,2026-06-15,H,Saudi Arabia,Uruguay,0,0,18,7,11,underdog_scored_early,mixed,Saudi scored 41st min from corner Uruguay chased wide entire 2nd half,
+004,2026-06-15,G,Iran,New Zealand,1,1,5,3,2,normal,mixed,Two direct teams low tempo NZ scored 7th Iran equalised 32nd,
+005,2026-06-16,I,France,Senegal,3,1,10,6,4,normal,wide_vs_counter,Tight first half 0-0 Mbappe brace sealed it Senegal mid-block disciplined,
+006,2026-06-16,I,Iraq,Norway,1,4,7,3,4,normal,mixed,Haaland brace scored centrally Norway dominant but low corners,
+007,2026-06-17,J,Argentina,Algeria,3,0,4,2,2,blowout,mixed,Argentina won 3-0 blowout central scorers low corners confirmed,
+008,2026-06-17,J,Austria,Jordan,3,1,7,4,3,blowout,mixed,Austria won 3-1 blowout low corners confirmed baseline 8.3 line 9.0 skip correct,
+009,2026-06-18,K,Portugal,DR Congo,1,1,9,5,4,normal,wide_vs_counter,Portugal dominated territory but Congo counter-threat via Wissa kept corners low. LOW data confidence + counter-threat confirmed as decisive factor.,
+010,2026-06-18,K,Uzbekistan,Colombia,1,3,7,4,3,normal,central_vs_deep,7 corners confirmed altitude + debut modifier was correct. Colombia central possession through James. Under lean validated.,
+011,2026-06-18,L,Ghana,Panama,1,0,4,2,2,normal,mixed,Only 4 corners total. Massive under. Baseline at line was correct signal to skip. Both teams direct and physical.,
+012,2026-06-18,L,England,Croatia,4,2,10,8,2,normal,wide_vs_deep,England wide possession dominated. Croatia sat deep with no counter-threat. 10 corners confirmed clean Tier 2 analysis.,
+013,2026-06-18,H,Spain,Cape Verde,0,0,13,10,3,normal,wide_vs_deep,Spain dominated with 27 shots but Vozinha (40yo GK) made 7 saves. Cape Verde pure deep block delivered exactly as modelled.,"Spain had 27 shots, 70% possession, xG 2.29 vs 0.3. Cape Verde completed only 14 passes in opposition half. Pure deep block confirmed — never threatened on counter. 10 Spain corners came from sustained wide probing across 90 mins. Tier 1 setup delivered perfectly."
