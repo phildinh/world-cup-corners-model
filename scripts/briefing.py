@@ -239,6 +239,35 @@ def generate_briefing():
             os.path.join(os.path.dirname(__file__), '..', 'MODEL.md'))
         with open(model_path, 'r', encoding='utf-8') as f:
             model_content = f.read()
+
+        import re
+        model_content = re.sub(
+            r'Correct skips: \d+/\d+',
+            f'Correct skips: {correct_skips}/{total_skips}',
+            model_content)
+        model_content = re.sub(
+            r'Current record: \d+W \d+L',
+            f'Current record: {won}W {lost}L',
+            model_content)
+
+        lessons_header = '| Match | Corners | Lesson |\n|---|---|---|'
+        lessons_table = lessons_header
+        merged_lessons = lessons.merge(
+            matches[['match_id', 'home_team', 'away_team', 'total_corners']],
+            on='match_id', how='left')
+        for _, lr in merged_lessons.iterrows():
+            h = str(lr.get('home_team', ''))
+            a = str(lr.get('away_team', ''))
+            c = lr.get('total_corners', '')
+            match_label = f'{h} vs {a}' if h and h != 'nan' else 'Unknown'
+            corners_str = str(int(c)) if pd.notna(c) else '?'
+            lessons_table += f"\n| {match_label} | {corners_str} | {lr['lesson']} |"
+
+        model_content = re.sub(
+            r'\| Match \| Corners \| Lesson \|.*?(?=\n---)',
+            lessons_table + '\n',
+            model_content, flags=re.DOTALL)
+
         print(f"\n{divider}")
         print("  FULL MODEL FRAMEWORK")
         print(divider)
