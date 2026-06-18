@@ -48,11 +48,9 @@ def generate_briefing():
     shadow_wr = round((shadow_won / shadow_total) * 100, 1) if shadow_total > 0 else 0
     shadow_pl = shadow_won - len(shadow[shadow['shadow_outcome'] == 'lost'])
 
-    # ── FORMATTING ──────────────────────────────────
     divider = "=" * 60
     thin = "-" * 60
 
-    # ── HEADER ──────────────────────────────────────
     print(f"\n{divider}")
     print("  WORLD CUP 2026 — CORNERS MODEL BRIEFING")
     print(f"  Generated: {date.today().isoformat()}")
@@ -72,13 +70,14 @@ def generate_briefing():
           f"{'+' if shadow_pl >= 0 else ''}{shadow_pl}.0 shadow units")
 
     # ── DATA CONFIDENCE WARNINGS ────────────────────
-    low_conf = predictions[predictions.get('data_confidence', pd.Series(dtype=str)).astype(str) == 'low']
-    if len(low_conf) > 0:
-        print(f"\n  LOW DATA CONFIDENCE WARNINGS")
-        print(thin)
-        for _, row in low_conf.iterrows():
-            print(f"  {row['home_team']} vs {row['away_team']} — "
-                  f"tier demoted due to low data confidence")
+    if 'data_confidence' in predictions.columns:
+        low_conf = predictions[predictions['data_confidence'].astype(str) == 'low']
+        if len(low_conf) > 0:
+            print(f"\n  LOW DATA CONFIDENCE WARNINGS")
+            print(thin)
+            for _, row in low_conf.iterrows():
+                print(f"  {row['home_team']} vs {row['away_team']} — "
+                      f"tier demoted due to low data confidence")
 
     # ── MARKET BREAKDOWN ────────────────────────────
     print("\n  MARKET BREAKDOWN")
@@ -121,6 +120,9 @@ def generate_briefing():
               f"Corners: {row['total_corners']} "
               f"({row['home_corners']}H / {row['away_corners']}A)  "
               f"State: {row['game_state']}{mt_str}")
+        mn = str(row.get('match_notes', '')).strip()
+        if pd.notna(row.get('match_notes', '')) and mn:
+            print(f"      Notes: {mn}")
 
     # ── MATCH TYPE PERFORMANCE ──────────────────────
     if 'match_type' in matches.columns:
@@ -177,8 +179,8 @@ def generate_briefing():
     # ── ALL PREDICTIONS LOG ──────────────────────────
     print("\n  ALL PREDICTIONS LOG")
     print(thin)
-    print(f"  {'Match':<30} {'Baseline':>8} {'Line':>5} {'Tier':<7} "
-          f"{'Bet?':>4} {'Lean':<6} {'DC':<4} {'Type':<16} {'Outcome'}")
+    print(f"  {'Match':<28} {'Avg':>6} {'Line':>5} {'Tier':<7} "
+          f"{'Bet?':>4} {'Lean':<6} {'DC':<3} {'Score':>5} {'Type':<16} {'Outcome'}")
     print(thin)
     for _, row in predictions.iterrows():
         match = f"{row['home_team']} vs {row['away_team']}"
@@ -195,13 +197,22 @@ def generate_briefing():
             mt = ''
         ct = str(row.get('counter_threat', '')).strip()
         ct_flag = " CT" if ct == 'yes' else ""
-        print(f"  {match:<30} "
-              f"{row['combined_baseline']:>8.2f} "
+        cs = row.get('confidence_score', 0)
+        if pd.isna(cs):
+            cs = 0
+        cs = int(cs)
+        print(f"  {match:<28} "
+              f"{row['combined_baseline']:>6.1f} "
               f"{row['line_offered']:>5.1f} "
               f"{row['tier']:<7} "
               f"{bet_placed:>4} {lean:<6} "
-              f"{dc_short:<4} {mt:<16} "
+              f"{dc_short:<3} {cs:>5} "
+              f"{mt:<16} "
               f"{row['outcome']}{ct_flag}")
+
+    print()
+    print(f"  Confidence Score thresholds: "
+          f"80-100 Strong | 60-79 Moderate | 40-59 Weak | 0-39 Skip")
 
     # ── MODEL VERSION HISTORY ────────────────────────
     try:
@@ -257,6 +268,7 @@ def generate_briefing():
     --total-corners [X] --home-corners [X] --away-corners [X]
     --group [X] --game-state [normal/underdog_scored_early/blowout]
     --notes "[one line summary]"
+    --match-notes "[post-match research findings]"
     --market [total_over/total_under/ah_corners/1h_over/1h_under]
     --selection "[e.g. Over 9.5]"
     --odds [X.XXX] --stake 1.00 --bet-outcome [won/lost/void]
@@ -279,7 +291,8 @@ def generate_briefing():
     --notes "[one line summary]"
     --skip-lean [over/under/none]
 
-  OPTIONAL V4.0 FLAGS (all have sensible defaults):
+  OPTIONAL FLAGS (all have sensible defaults):
+    --match-notes "[research]"             post-match research findings
     --data-confidence [high/medium/low]    default: high
     --counter-threat [yes/no/auto]         default: auto (derived from team DB)
     --counter-scorer                       flag: opponent scored on counter
@@ -288,6 +301,18 @@ def generate_briefing():
     --venue "[stadium name]"               auto-detects altitude
     --debut-opponent                       flag: opponent first World Cup
     --match-type [type]                    default: auto-derived from team DB
+
+  COUNTER-THREAT REFINED RULES (v4.1):
+    CT + AH corners       → AH forbidden, no tier change
+    CT + low confidence   → SKIP SIGNAL, demote tier
+    CT + high/med + edge < 1.0 → demote tier
+    CT + high/med + edge >= 1.0 → tier maintained (strong edge survives)
+
+  CONFIDENCE SCORE THRESHOLDS:
+    80-100 = Strong edge    → high conviction bet
+    60-79  = Moderate edge  → standard bet if tier supports
+    40-59  = Weak edge      → grey zone, lean toward skip
+    0-39   = Skip           → no bet
 
   VALID VALUES:
   market:          total_over / total_under / ah_corners / 1h_over / 1h_under
@@ -304,7 +329,7 @@ def generate_briefing():
 
     # ── FOOTER ──────────────────────────────────────
     print(divider)
-    print(f"  MODEL: v4.0  |  MATCHES LOGGED: {len(matches)}  "
+    print(f"  MODEL: v4.1  |  MATCHES LOGGED: {len(matches)}  "
           f"|  TEAMS TRACKED: {len(teams)}")
     print(f"  Paste this entire output into Claude Chat to load full context.")
     print(divider + "\n")

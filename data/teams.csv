@@ -3,11 +3,11 @@ team_id,team_name,confederation,group,attack_type,defensive_type,avg_corners_tak
 2,Cape Verde,CAF,H,direct_physical,pure_deep_block,2.75,8.25,2,2026-06-18,Heroic GK Vozinha deep block zero attacking threat
 3,Belgium,UEFA,G,wide_possession,mid_block,4.25,5.1,2,2026-06-18,Doku Trossard De Bruyne wide threats fragile defence
 4,Egypt,CAF,G,counter_attacking,mid_block,5.4,3.6,2,2026-06-18,Salah Marmoush counter threat scored early vs Belgium
-5,Saudi Arabia,AFC,H,direct_physical,mid_block,3.5,4.8,1,2026-06-15,Al-Dawsari counter threat set piece danger scored from corner
-6,Uruguay,CONMEBOL,H,central_possession,high_press,4.2,3.8,1,2026-06-15,Bielsa vertical pressing system not wide probing
-7,Iran,AFC,G,direct_physical,mid_block,3.0,4.5,1,2026-06-15,Taremi central focused not wide probing
-8,New Zealand,OFC,G,set_piece_specialist,mid_block,4.3,3.7,1,2026-06-15,Chris Wood aerial threat active corner weapon
-9,France,UEFA,I,wide_possession,high_press,7.8,2.3,1,2026-06-16,Mbappe Olise Barcola Dembele wide threats Kounde overlapping
-10,Senegal,CAF,I,counter_attacking,compact_mid_block,2.8,5.2,1,2026-06-16,Mane Jackson counter threat disciplined mid-block
-11,Iraq,AFC,I,set_piece_specialist,mid_block,3.5,4.5,1,2026-06-16,Set piece danger active corners weapon
-12,Norway,UEFA,I,central_possession,high_press,5.0,3.2,1,2026-06-16,Haaland central scorer Odegaard playmaker scores through middle
+5,Saudi Arabia,AFC,H,direct_physical,mid_block,5.25,7.9,2,2026-06-18,Al-Dawsari counter threat set piece danger scored from corner
+6,Uruguay,CONMEBOL,H,central_possession,high_press,7.6,5.4,2,2026-06-18,Bielsa vertical pressing system not wide probing
+7,Iran,AFC,G,direct_physical,mid_block,3.0,3.25,2,2026-06-18,Taremi central focused not wide probing
+8,New Zealand,OFC,G,set_piece_specialist,mid_block,3.15,3.35,2,2026-06-18,Chris Wood aerial threat active corner weapon
+9,France,UEFA,I,wide_possession,high_press,6.9,3.15,2,2026-06-18,Mbappe Olise Barcola Dembele wide threats Kounde overlapping
+10,Senegal,CAF,I,counter_attacking,compact_mid_block,3.4,5.6,2,2026-06-18,Mane Jackson counter threat disciplined mid-block
+11,Iraq,AFC,I,set_piece_specialist,mid_block,3.25,4.25,2,2026-06-18,Set piece danger active corners weapon
+12,Norway,UEFA,I,central_possession,high_press,4.5,3.1,2,2026-06-18,Haaland central scorer Odegaard playmaker scores through middle

@@ -53,6 +53,8 @@ Commands:
                         help='normal / underdog_scored_early / blowout')
     parser.add_argument('--notes', default='',
                         help='Match notes')
+    parser.add_argument('--match-notes', default='',
+                        help='Post-match research findings')
 
     # ── BET ARGS ─────────────────────────────────────
     parser.add_argument('--market', default=None,
@@ -156,7 +158,8 @@ Commands:
             transition_xg=args.transition_xg,
             altitude=args.altitude, venue=args.venue,
             debut_opponent=args.debut_opponent,
-            match_type=args.match_type
+            match_type=args.match_type,
+            match_notes=args.match_notes
         )
 
     elif args.command == 'report':
