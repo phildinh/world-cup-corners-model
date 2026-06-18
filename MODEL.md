@@ -142,7 +142,7 @@ All three must be true:
 Any one of these present:
 - Both teams direct and central
 - Line at or above combined baseline
-- Opponent has genuine counter-threat
+- Counter-threat present AND edge < 1.0 (strong edge survives CT — see Step 3)
 - Favourite scores through central individual brilliance
 - Odds below minimum floor for tier/market
 
