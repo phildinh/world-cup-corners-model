@@ -54,7 +54,7 @@ def next_id(df, id_col):
 def detect_altitude(venue):
     if not venue:
         return False
-    for name, alt in ALTITUDE_VENUES.items():
+    for name in ALTITUDE_VENUES:
         if name in venue.lower():
             return True
     return False
@@ -81,10 +81,8 @@ def derive_match_type(home_team, away_team, teams, match_type_flag):
         return 'mixed'
     home = teams[teams['team_name'] == home_team].iloc[0]
     away = teams[teams['team_name'] == away_team].iloc[0]
-    h_atk = home['attack_type']
-    a_atk = away['attack_type']
-    a_def = away['defensive_type']
-    h_def = home['defensive_type']
+    h_atk, a_atk = home['attack_type'], away['attack_type']
+    a_def, h_def = away['defensive_type'], home['defensive_type']
 
     if h_atk == 'direct_physical' and a_atk == 'direct_physical':
         return 'direct_vs_direct'
@@ -111,12 +109,85 @@ def check_odds_floor(tier, market, odds):
     if not tier or not market or not odds:
         return
     floor = ODDS_FLOORS.get((tier, market))
-    if not floor:
-        if 'under' in (market or ''):
-            floor = 1.850
+    if not floor and 'under' in (market or ''):
+        floor = 1.850
     if floor and odds < floor:
         print(f"  ODDS BELOW FLOOR — minimum for {tier} {market} is {floor}. "
               f"Consider skipping or reducing stake.")
+
+def calculate_confidence_score(baseline, line, data_confidence,
+                               home_attack_type, counter_threat,
+                               tier, odds=None):
+    score = 50
+    edge = abs(baseline - line) if line else 0
+    if edge >= 1.5:
+        score += 20
+    elif edge >= 1.0:
+        score += 10
+    elif edge >= 0.5:
+        pass
+    else:
+        score -= 10
+
+    if data_confidence == 'high':
+        score += 10
+    elif data_confidence == 'low':
+        score -= 15
+
+    if home_attack_type == 'wide_possession':
+        score += 15
+    elif home_attack_type in ('central_possession', 'set_piece_specialist'):
+        score += 5
+    elif home_attack_type in ('direct_physical', 'counter_attacking'):
+        score -= 5
+
+    if counter_threat == 'yes':
+        score -= 15
+
+    if tier == 'tier_1':
+        score += 10
+    elif tier == 'tier_2':
+        score += 5
+    elif tier == 'tier_3':
+        score -= 10
+
+    if odds:
+        if odds >= 1.950:
+            score += 5
+        elif odds >= 1.850:
+            pass
+        else:
+            score -= 5
+
+    return max(0, min(100, score))
+
+def apply_counter_threat_rules(ct, dc, market, edge, tier):
+    effective_tier = tier
+    if ct != 'yes':
+        return effective_tier
+
+    if market == 'ah_corners':
+        print("  AH CORNERS FORBIDDEN — counter-threat present")
+        return effective_tier
+
+    if dc == 'low':
+        print("  SKIP SIGNAL — counter-threat + low confidence")
+        if effective_tier == 'tier_1':
+            effective_tier = 'tier_2'
+        elif effective_tier == 'tier_2':
+            effective_tier = 'tier_3'
+    else:
+        if edge < 1.0:
+            print(f"  COUNTER-THREAT WARNING — edge {edge:.1f} < 1.0, tier demoted")
+            if effective_tier == 'tier_1':
+                effective_tier = 'tier_2'
+            elif effective_tier == 'tier_2':
+                effective_tier = 'tier_3'
+        else:
+            print(f"  COUNTER-THREAT WARNING — edge {edge:.1f} >= 1.0, tier maintained")
+
+    return effective_tier
+
 
 def update_match(home, away, home_score, away_score,
                  total_corners, home_corners, away_corners,
@@ -129,49 +200,38 @@ def update_match(home, away, home_score, away_score,
                  skip_lean=None, data_confidence=None,
                  counter_threat=None, counter_scorer=False,
                  transition_xg=None, altitude=None, venue=None,
-                 debut_opponent=False, match_type=None):
+                 debut_opponent=False, match_type=None,
+                 match_notes=None):
 
     today = date.today().isoformat()
     teams = load_csv('teams.csv')
 
-    # Auto-detect altitude from venue
     if altitude is None or altitude == 'no':
         altitude_active = detect_altitude(venue) if venue else False
     else:
         altitude_active = (altitude == 'yes')
 
-    # Auto-derive counter-threat
     ct = derive_counter_threat(
         away, teams, counter_threat or 'auto', counter_scorer)
     if transition_xg and float(transition_xg) > 0.3:
         ct = 'yes'
 
-    # Auto-derive match type
     mt = derive_match_type(home, away, teams, match_type)
-
-    # Data confidence defaults
     dc = data_confidence or 'high'
 
-    # Debut opponent modifier
     effective_away_avg = away_avg
     if debut_opponent and away_avg:
         effective_away_avg = round(float(away_avg) * 0.9, 2)
         print(f"  DEBUT OPPONENT — {away} corners taken adjusted "
               f"{away_avg} -> {effective_away_avg} (-10%)")
 
-    # Altitude modifier on baseline
     altitude_adjustment = 0
     if altitude_active:
         altitude_adjustment = -1.0
         print(f"  ALTITUDE VENUE — baseline adjusted -1.0")
 
-    # Odds floor check
     if market and odds and tier:
         check_odds_floor(tier, market, odds)
-
-    # Counter-threat warning for AH corners
-    if ct == 'yes' and market == 'ah_corners':
-        print(f"  COUNTER-THREAT DETECTED — AH corners forbidden for this match")
 
     # --- matches.csv ---
     matches = load_csv('matches.csv')
@@ -189,12 +249,13 @@ def update_match(home, away, home_score, away_score,
         'away_corners': away_corners,
         'game_state': game_state,
         'match_type': mt,
-        'notes': notes
+        'notes': notes,
+        'match_notes': match_notes or ''
     }
     matches = pd.concat([matches, pd.DataFrame([new_match])], ignore_index=True)
     save_csv(matches, 'matches.csv')
 
-    # --- teams.csv --- update rolling averages
+    # --- teams.csv ---
     for team, corners_taken, corners_conceded in [
         (home, home_corners, away_corners),
         (away, away_corners, home_corners)
@@ -210,10 +271,9 @@ def update_match(home, away, home_score, away_score,
                 ((old_conceded * played) + corners_conceded) / (played + 1), 2)
             teams.at[idx, 'matches_played'] = played + 1
             teams.at[idx, 'last_updated'] = today
-
     save_csv(teams, 'teams.csv')
 
-    # --- bets.csv --- only if bet was placed
+    # --- bets.csv ---
     if market and selection and odds and stake and bet_outcome:
         bets = load_csv('bets.csv')
         bet_id = next_id(bets, 'bet_id')
@@ -222,17 +282,10 @@ def update_match(home, away, home_score, away_score,
             else -float(stake), 3
         )
         new_bet = {
-            'bet_id': bet_id,
-            'match_id': match_id,
-            'date': today,
-            'home_team': home,
-            'away_team': away,
-            'market': market,
-            'selection': selection,
-            'odds': odds,
-            'stake': stake,
-            'outcome': bet_outcome,
-            'profit_loss': profit_loss,
+            'bet_id': bet_id, 'match_id': match_id, 'date': today,
+            'home_team': home, 'away_team': away, 'market': market,
+            'selection': selection, 'odds': odds, 'stake': stake,
+            'outcome': bet_outcome, 'profit_loss': profit_loss,
             'notes': notes
         }
         bets = pd.concat([bets, pd.DataFrame([new_bet])], ignore_index=True)
@@ -256,6 +309,11 @@ def update_match(home, away, home_score, away_score,
                 effective_tier = 'tier_3'
                 print(f"  LOW DATA CONFIDENCE — tier demoted: tier_2 -> tier_3 (skip)")
 
+        # v4.1 refined counter-threat rules
+        edge = abs(combined_baseline - (line or 0))
+        effective_tier = apply_counter_threat_rules(
+            ct, dc, market, edge, effective_tier)
+
         bet_placed = True if market else False
         lean = skip_lean if not market else ''
         shadow_bet = (not market) and lean in ('over', 'under')
@@ -275,29 +333,31 @@ def update_match(home, away, home_score, away_score,
                     shadow_outcome = 'lost'
                 else:
                     shadow_outcome = 'push'
+
+        home_atk = ''
+        if home in teams['team_name'].values:
+            home_atk = teams[teams['team_name'] == home].iloc[0]['attack_type']
+
+        conf_score = calculate_confidence_score(
+            combined_baseline, line or 0, dc, home_atk, ct,
+            effective_tier, odds)
+
         new_pred = {
-            'prediction_id': pred_id,
-            'match_id': match_id,
-            'date': today,
-            'home_team': home,
-            'away_team': away,
-            'home_avg_corners': home_avg,
-            'away_avg_corners': away_avg,
+            'prediction_id': pred_id, 'match_id': match_id, 'date': today,
+            'home_team': home, 'away_team': away,
+            'home_avg_corners': home_avg, 'away_avg_corners': away_avg,
             'combined_baseline': combined_baseline,
+            'original_tier': tier,
             'tier': effective_tier,
             'recommended_market': market or 'skip',
             'recommended_direction': selection or 'skip',
             'confidence': confidence or 'skip',
             'line_offered': line or 0,
-            'bet_placed': bet_placed,
-            'skip_lean': lean,
-            'shadow_bet': shadow_bet,
-            'shadow_outcome': shadow_outcome,
-            'data_confidence': dc,
-            'counter_threat': ct,
-            'match_type': mt,
-            'outcome': bet_outcome or 'skip',
-            'notes': notes
+            'bet_placed': bet_placed, 'skip_lean': lean,
+            'shadow_bet': shadow_bet, 'shadow_outcome': shadow_outcome,
+            'data_confidence': dc, 'counter_threat': ct,
+            'match_type': mt, 'confidence_score': conf_score,
+            'outcome': bet_outcome or 'skip', 'notes': notes
         }
         predictions = pd.concat(
             [predictions, pd.DataFrame([new_pred])], ignore_index=True)
@@ -308,13 +368,9 @@ def update_match(home, away, home_score, away_score,
         lessons = load_csv('lessons.csv')
         lesson_id = next_id(lessons, 'lesson_id')
         new_lesson = {
-            'lesson_id': lesson_id,
-            'match_id': match_id,
-            'date': today,
-            'category': lesson_category,
-            'lesson': lesson,
-            'rule_added': rule or '',
-            'model_version': 'v4.0'
+            'lesson_id': lesson_id, 'match_id': match_id, 'date': today,
+            'category': lesson_category, 'lesson': lesson,
+            'rule_added': rule or '', 'model_version': 'v4.1'
         }
         lessons = pd.concat(
             [lessons, pd.DataFrame([new_lesson])], ignore_index=True)
@@ -329,6 +385,8 @@ def update_match(home, away, home_score, away_score,
         print(f"   Altitude: YES (baseline -1.0)")
     if debut_opponent:
         print(f"   Debut opponent: YES (away corners -10%)")
+    if match_notes:
+        print(f"   Research notes: {match_notes}")
 
     git_commit(home, away, total_corners)
 
@@ -361,6 +419,8 @@ if __name__ == '__main__':
     parser.add_argument('--group', required=True)
     parser.add_argument('--game-state', default='normal')
     parser.add_argument('--notes', default='')
+    parser.add_argument('--match-notes', default='',
+        help='Post-match research findings')
     parser.add_argument('--market', default=None)
     parser.add_argument('--selection', default=None)
     parser.add_argument('--odds', type=float, default=None)
@@ -391,8 +451,7 @@ if __name__ == '__main__':
     parser.add_argument('--debut-opponent', action='store_true',
         help='Opponent at first World Cup')
     parser.add_argument('--match-type', default=None,
-        help='Match type: wide_vs_deep / wide_vs_counter / central_vs_deep / '
-             'direct_vs_direct / wide_vs_open / mixed')
+        help='Match type override')
     args = parser.parse_args()
 
     update_match(
@@ -413,5 +472,6 @@ if __name__ == '__main__':
         transition_xg=args.transition_xg,
         altitude=args.altitude, venue=args.venue,
         debut_opponent=args.debut_opponent,
-        match_type=args.match_type
+        match_type=args.match_type,
+        match_notes=args.match_notes
     )

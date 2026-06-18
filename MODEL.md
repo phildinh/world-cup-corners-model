@@ -1,11 +1,11 @@
-# World Cup 2026 — Corners Betting Model v4.0
+# World Cup 2026 — Corners Betting Model v4.1
 
 ## Overview
 A data-driven corners prediction model for FIFA World Cup 2026.
 Built and validated across live matches — updated after every game.
 
-Last updated: June 17, 2026
-Current record: 2W 1L | Correct skips: 5/5
+Last updated: June 18, 2026
+Current record: 3W 2L | Correct skips: 5/5
 
 ---
 
@@ -77,6 +77,18 @@ Counter-threat ABSENT (AH permitted) only if ALL of:
 - No `--counter-scorer` flag set
 
 Flag: `--counter-threat [yes/no/auto]` (default: auto — derived from team DB)
+
+### Counter-Threat Refined Rules (v4.1)
+
+| Condition | Action |
+|---|---|
+| CT + AH corners market | AH FORBIDDEN — no tier change (AH already excluded) |
+| CT + low data confidence | SKIP SIGNAL — demote tier (too risky) |
+| CT + high/med confidence + edge < 1.0 | Demote tier (edge not strong enough) |
+| CT + high/med confidence + edge >= 1.0 | Tier maintained (strong edge survives CT) |
+| No CT | Normal tier classification |
+
+Real example: France vs Senegal — CT=yes but edge=1.1 >= 1.0, high confidence → tier maintained at tier_2 → WON
 
 ---
 
@@ -242,6 +254,7 @@ Auto-derived from team database or set manually via `--match-type`.
 | v2.0 | Jun 15 | Added AH corners, 1H markets, blowout rule |
 | v3.0 | Jun 16 | Added attack style classification, HOW team scores rule, line value thresholds |
 | v4.0 | Jun 17 | Added: data source hierarchy, counter-threat scoring criteria, altitude modifier, debut opponent modifier, odds floor formalisation, match type tagging |
+| v4.1 | Jun 18 | Added: post-match notes, confidence score (0-100), counter-threat refined rules |
 
 ---
 
