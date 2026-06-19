@@ -23,9 +23,27 @@ team_id,team_name,confederation,group,attack_type,defensive_type,avg_corners_tak
 22,Panama,CONCACAF,L,direct_physical,compact_mid_block,2.0,2.0,1,2026-06-17,Sat deep and compact limited attacking output,normal
 23,England,UEFA,L,wide_possession,high_press,8.0,2.0,1,2026-06-17,Saka Gordon Madueke wide delivery 8 corners from sustained width,normal
 24,Croatia,UEFA,L,central_possession,pure_deep_block,2.0,8.0,1,2026-06-17,Sat deep with Modric at 40 zero pace in behind,normal
-25,Czechia,UEFA,A,set_piece_specialist,mid_block,5.0,5.0,1,2026-06-19,Set-piece/throw-in identity Coufal Sadilek corners,normal
-26,South Africa,CAF,A,unknown,mid_block,5.0,5.0,1,2026-06-19,Pushed numbers forward chasing baseline style unclear,normal
-27,Switzerland,UEFA,B,wide_possession,high_press,7.0,3.0,1,2026-06-19,Wide_possession identity held via Rieder Aebischer,normal
-28,Bosnia-Herzegovina,UEFA,B,direct_physical,compact_mid_block,3.0,7.0,1,2026-06-19,35 clearances 1st half compact_mid_block profile,normal
-29,Canada,CONCACAF,B,wide_possession,high_press,19.0,1.0,1,2026-06-19,Single data point — extreme outlier match (9v11) treat avg as unreliable until second match logged. Pre-match baseline was ~9 corners vs full-strength Bosnia.,low_sample_outlier
-30,Qatar,AFC,B,unknown,unknown,1.0,19.0,1,2026-06-19,Single data point — extreme outlier match (9v11) treat avg as unreliable until second match logged. Reduced to 9 men normal style unobservable.,low_sample_outlier
+25,Czechia,UEFA,A,set_piece_specialist,mid_block,5.0,4.5,2,2026-06-19,Set-piece/throw-in identity Coufal Sadilek corners,normal
+26,South Africa,CAF,A,unknown,mid_block,3.0,4.0,2,2026-06-19,Pushed numbers forward chasing baseline style unclear,normal
+27,Switzerland,UEFA,B,wide_possession,high_press,8.5,3.0,2,2026-06-19,Wide_possession identity held via Rieder Aebischer,normal
+28,Bosnia-Herzegovina,UEFA,B,direct_physical,compact_mid_block,3.5,8.0,2,2026-06-19,35 clearances 1st half compact_mid_block profile,normal
+29,Canada,CONCACAF,B,wide_possession,high_press,14.0,2.5,2,2026-06-19,9 corners vs Bosnia (representative) + 19 vs 9-man Qatar (outlier). Wide_possession confirmed across both.,normal
+30,Qatar,AFC,B,unknown,compact_mid_block,2.0,14.5,2,2026-06-19,Held Switzerland to 1-1 draw via Khoukhi header. Compact defensive shape confirmed from representative match.,normal
+31,Mexico,CONCACAF,A,central_possession,high_press,3.0,1.0,1,2026-06-11,Dominant 1.41xG vs 0.07 but low corners at altitude via Quinones Jimenez,normal
+32,South Korea,AFC,A,central_possession,high_press,4.0,5.0,1,2026-06-11,Hwang In-beom equalizer+assist Oh Hyeon-gyu winner comeback style,normal
+33,Paraguay,CONMEBOL,D,unknown,compact_mid_block,1.0,3.0,1,2026-06-12,Lost 4-1 to USA limited attacking signal only 1 corner,low_sample_outlier
+34,USA,CONCACAF,D,central_possession,high_press,3.0,1.0,1,2026-06-12,Scored through individual quality Balogun Pulisic not sustained wide crossing,normal
+35,Brazil,CONMEBOL,C,central_possession,high_press,6.0,2.0,1,2026-06-13,Vinicius solo equalizer individual brilliance not wide buildup,normal
+36,Morocco,CAF,C,counter_attacking,compact_mid_block,2.0,6.0,1,2026-06-13,Saibari surprise lead Bounou key saves compact defending,normal
+37,Haiti,CONCACAF,C,direct_physical,mid_block,4.0,3.0,1,2026-06-13,Debutants competitive throughout Pierrot header just wide 84th min,low_sample_outlier
+38,Scotland,UEFA,C,central_possession,mid_block,3.0,4.0,1,2026-06-13,McGinn goal from Gannon-Doak cutback first WC win since 1990,normal
+39,Australia,AFC,D,counter_attacking,mid_block,5.0,8.0,1,2026-06-13,Two pure counter-attacking breaks Irankunda pace Metcalfe long range,normal
+40,Turkiye,UEFA,D,wide_possession,high_press,8.0,5.0,1,2026-06-13,Dominated possession territory 8 corners despite losing to counter,normal
+41,Germany,UEFA,E,central_possession,high_press,8.0,1.0,1,2026-06-14,Musiala Kimmich Havertz Wirtz central quality with set-piece contribution,normal
+42,Curacao,CONCACAF,E,direct_physical,compact_mid_block,1.0,8.0,1,2026-06-14,Smallest nation to qualify debut Comenencia scored 21st min,low_sample_outlier
+43,Netherlands,UEFA,F,wide_possession,high_press,5.0,4.0,1,2026-06-14,Van Dijk header from Gravenberch cross wide-play identity,normal
+44,Japan,AFC,F,set_piece_specialist,compact_mid_block,4.0,5.0,1,2026-06-14,Ogawa header off Ito corner for late equalizer aerial threat confirmed,normal
+45,Ivory Coast,CAF,E,counter_attacking,mid_block,3.0,5.0,1,2026-06-14,Amad Diallo 90th min winner clinical counter finish,normal
+46,Ecuador,CONMEBOL,E,central_possession,high_press,5.0,3.0,1,2026-06-14,Dominated first half hit woodwork 4 times 5 corners taken,normal
+47,Sweden,UEFA,F,central_possession,high_press,4.0,2.0,1,2026-06-14,All 5 goals individual quality long-range strikes central scorer blowout,normal
+48,Tunisia,CAF,F,unknown,compact_mid_block,2.0,4.0,1,2026-06-14,Lost 5-1 limited signal on normal style dominated throughout,low_sample_outlier
