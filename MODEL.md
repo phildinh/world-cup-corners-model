@@ -1,11 +1,11 @@
-# World Cup 2026 — Corners Betting Model v4.1
+# World Cup 2026 — Corners Betting Model v4.2
 
 ## Overview
 A data-driven corners prediction model for FIFA World Cup 2026.
 Built and validated across live matches — updated after every game.
 
-Last updated: June 18, 2026
-Current record: 3W 2L | Correct skips: 5/5
+Last updated: June 19, 2026
+Current record: 4W 2L (66.7%) | P&L: +2.25u | Correct skips: 8/9 (88.9%)
 
 ---
 
@@ -255,6 +255,7 @@ Auto-derived from team database or set manually via `--match-type`.
 | v3.0 | Jun 16 | Added attack style classification, HOW team scores rule, line value thresholds |
 | v4.0 | Jun 17 | Added: data source hierarchy, counter-threat scoring criteria, altitude modifier, debut opponent modifier, odds floor formalisation, match type tagging |
 | v4.1 | Jun 18 | Added: post-match notes, confidence score (0-100), counter-threat refined rules |
+| v4.2 | Jun 19 | Data integrity fixes — predictions.csv skip-lean gap, matches.csv duplicate merge, teams.csv backfill for 18 missing teams, low_sample_outlier reliability flag added. Record corrected to reflect true state. No rule logic changed (Steps 1-9 unchanged). |
 
 ---
 

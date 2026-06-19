@@ -331,7 +331,7 @@ def generate_briefing():
     --debut-opponent                       flag: opponent first World Cup
     --match-type [type]                    default: auto-derived from team DB
 
-  COUNTER-THREAT REFINED RULES (v4.1):
+  COUNTER-THREAT REFINED RULES (v4.2):
     CT + AH corners       → AH forbidden, no tier change
     CT + low confidence   → SKIP SIGNAL, demote tier
     CT + high/med + edge < 1.0 → demote tier
@@ -358,7 +358,7 @@ def generate_briefing():
 
     # ── FOOTER ──────────────────────────────────────
     print(divider)
-    print(f"  MODEL: v4.1  |  MATCHES LOGGED: {len(matches)}  "
+    print(f"  MODEL: v4.2  |  MATCHES LOGGED: {len(matches)}  "
           f"|  TEAMS TRACKED: {len(teams)}")
     print(f"  Paste this entire output into Claude Chat to load full context.")
     print(divider + "\n")

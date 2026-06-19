@@ -255,7 +255,7 @@ def update_match(home, away, home_score, away_score,
     matches = pd.concat([matches, pd.DataFrame([new_match])], ignore_index=True)
     save_csv(matches, 'matches.csv')
 
-    # --- teams.csv ---
+    # --- teams.csv --- upsert: update existing or insert new
     for team, corners_taken, corners_conceded in [
         (home, home_corners, away_corners),
         (away, away_corners, home_corners)
@@ -271,6 +271,20 @@ def update_match(home, away, home_score, away_score,
                 ((old_conceded * played) + corners_conceded) / (played + 1), 2)
             teams.at[idx, 'matches_played'] = played + 1
             teams.at[idx, 'last_updated'] = today
+            if played + 1 >= 2:
+                teams.at[idx, 'data_reliability'] = 'normal'
+        else:
+            new_team_id = int(teams['team_id'].max()) + 1
+            new_team = {
+                'team_id': new_team_id, 'team_name': team,
+                'confederation': '', 'group': group,
+                'attack_type': 'unknown', 'defensive_type': 'unknown',
+                'avg_corners_taken': corners_taken,
+                'avg_corners_conceded': corners_conceded,
+                'matches_played': 1, 'last_updated': today,
+                'notes': '', 'data_reliability': 'low_sample_outlier'
+            }
+            teams = pd.concat([teams, pd.DataFrame([new_team])], ignore_index=True)
     save_csv(teams, 'teams.csv')
 
     # --- bets.csv ---
@@ -292,6 +306,9 @@ def update_match(home, away, home_score, away_score,
         save_csv(bets, 'bets.csv')
 
     # --- predictions.csv ---
+    has_real_lean = skip_lean and skip_lean in ('over', 'under')
+    if not tier and has_real_lean:
+        tier = 'tier_3'
     if tier:
         predictions = load_csv('predictions.csv')
         pred_id = next_id(predictions, 'prediction_id')

@@ -121,6 +121,21 @@ def model_stats():
     for cat, count in cats.items():
         print(f"  {cat:<25} {count} lessons")
 
+    pred_count = len(predictions)
+    pct = min(round((pred_count / 45) * 100, 1), 100.0)
+    if pred_count < 40:
+        status = "Not enough data yet — keep logging matches"
+    else:
+        status = ("Threshold reached — ready to consider building a "
+                  "statistical model (logistic regression) alongside "
+                  "the rule-based system")
+
+    print("\n  STATISTICAL MODEL READINESS")
+    print_divider('-')
+    print(f"  Predictions logged:   {pred_count} / 40-50 target")
+    print(f"  Progress:             {pct}%")
+    print(f"  Status:               {status}")
+
     print_divider()
     print()
 

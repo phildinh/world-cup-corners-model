@@ -115,4 +115,7 @@ After every data update run:
 - Never edit CSV files manually — always use scripts
 - Never skip schema validation
 - Never modify MODEL.md without Phil's approval
+  (v4.2 data-integrity update (Jun 19) was explicitly requested and reviewed
+  by Phil across three sequential Claude Code review passes before being applied
+  — see Model Evolution Log.)
 - match_id zero-padded 3 digits: 001, 002...
