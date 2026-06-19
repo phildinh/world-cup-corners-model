@@ -65,6 +65,15 @@ def calculate_baseline(home_name, away_name, line=None):
     print("\n" + "="*50)
     print(f"  BASELINE: {home_name} vs {away_name}")
     print("="*50)
+
+    for team_name, team_row in [(home_name, home), (away_name, away)]:
+        reliability = str(team_row.get('data_reliability', 'normal'))
+        if reliability == 'low_sample_outlier':
+            print(f"\n  WARNING: {team_name}'s avg_corners_taken/conceded "
+                  f"is based on a single outlier match (see teams.csv notes) "
+                  f"and may not be representative.\n"
+                  f"  Treat this baseline with extra caution until more "
+                  f"matches are logged.")
     print(f"\n  {home_name}:")
     print(f"    Avg corners taken:    {home_taken}")
     print(f"    Avg corners conceded: {home_conceded}")

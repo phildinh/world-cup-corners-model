@@ -1,5 +1,11 @@
 # World Cup 2026 — Corners Model Guide
 
+NOTE: As of June 2026, the primary workflow uses a Claude Project with
+data/ and MODEL.md uploaded to Knowledge, re-uploaded after each Claude Code
+session — no need to paste briefing.py output into a fresh chat each time.
+The original briefing-paste flow below still works as a fallback/verification
+step (e.g. to sanity-check the Project's knowledge matches the repo).
+
 ---
 
 ## STEP 1 — START EVERY SESSION
