@@ -306,8 +306,8 @@ def update_match(home, away, home_score, away_score,
         save_csv(bets, 'bets.csv')
 
     # --- predictions.csv ---
-    has_real_lean = skip_lean and skip_lean in ('over', 'under')
-    if not tier and has_real_lean:
+    has_skip_lean = skip_lean and skip_lean in ('over', 'under', 'none')
+    if not tier and has_skip_lean:
         tier = 'tier_3'
     if tier:
         predictions = load_csv('predictions.csv')
