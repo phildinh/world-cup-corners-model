@@ -34,9 +34,9 @@ team_id,team_name,confederation,group,attack_type,defensive_type,avg_corners_tak
 33,Paraguay,CONMEBOL,D,unknown,compact_mid_block,1.0,3.0,1,2026-06-12,Lost 4-1 to USA limited attacking signal only 1 corner,low_sample_outlier
 34,USA,CONCACAF,D,central_possession,high_press,5.0,2.5,2,2026-06-20,Scored through individual quality Balogun Pulisic not sustained wide crossing,normal
 35,Brazil,CONMEBOL,C,central_possession,high_press,6.0,2.0,1,2026-06-13,Vinicius solo equalizer individual brilliance not wide buildup,normal
-36,Morocco,CAF,C,counter_attacking,compact_mid_block,2.0,6.0,1,2026-06-13,Saibari surprise lead Bounou key saves compact defending,normal
+36,Morocco,CAF,C,counter_attacking,compact_mid_block,3.5,4.0,2,2026-06-20,Saibari surprise lead Bounou key saves compact defending,normal
 37,Haiti,CONCACAF,C,direct_physical,mid_block,4.0,3.0,1,2026-06-13,Debutants competitive throughout Pierrot header just wide 84th min,low_sample_outlier
-38,Scotland,UEFA,C,central_possession,mid_block,3.0,4.0,1,2026-06-13,McGinn goal from Gannon-Doak cutback first WC win since 1990,normal
+38,Scotland,UEFA,C,central_possession,mid_block,2.5,4.5,2,2026-06-20,McGinn goal from Gannon-Doak cutback first WC win since 1990,normal
 39,Australia,AFC,D,counter_attacking,mid_block,4.5,7.5,2,2026-06-20,Two pure counter-attacking breaks Irankunda pace Metcalfe long range,normal
 40,Turkiye,UEFA,D,wide_possession,high_press,8.0,5.0,1,2026-06-13,Dominated possession territory 8 corners despite losing to counter,normal
 41,Germany,UEFA,E,central_possession,high_press,8.0,1.0,1,2026-06-14,Musiala Kimmich Havertz Wirtz central quality with set-piece contribution,normal
