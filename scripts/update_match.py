@@ -204,6 +204,8 @@ def update_match(home, away, home_score, away_score,
                  match_notes=None):
 
     today = date.today().isoformat()
+    home = home.replace('_', ' ')
+    away = away.replace('_', ' ')
     teams = load_csv('teams.csv')
 
     if altitude is None or altitude == 'no':
