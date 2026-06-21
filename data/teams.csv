@@ -40,10 +40,10 @@ team_id,team_name,confederation,group,attack_type,defensive_type,avg_corners_tak
 39,Australia,AFC,D,counter_attacking,mid_block,4.5,7.5,2,2026-06-20,Two pure counter-attacking breaks Irankunda pace Metcalfe long range,normal
 40,Turkiye,UEFA,D,wide_possession,high_press,10.0,2.5,2,2026-06-20,Dominated possession territory 8 corners despite losing to counter,normal
 41,Germany,UEFA,E,central_possession,high_press,8.0,1.0,1,2026-06-14,Musiala Kimmich Havertz Wirtz central quality with set-piece contribution,normal
-42,Curacao,CONCACAF,E,direct_physical,compact_mid_block,1.0,8.0,1,2026-06-14,Smallest nation to qualify debut Comenencia scored 21st min,low_sample_outlier
+42,Curacao,CONCACAF,E,direct_physical,compact_mid_block,0.5,8.5,2,2026-06-21,Smallest nation to qualify debut Comenencia scored 21st min,normal
 43,Netherlands,UEFA,F,wide_possession,high_press,3.5,4.5,2,2026-06-21,Van Dijk header from Gravenberch cross wide-play identity,normal
 44,Japan,AFC,F,set_piece_specialist,compact_mid_block,4.5,4.0,2,2026-06-21,Ogawa header off Ito corner for late equalizer aerial threat confirmed,normal
 45,Ivory Coast,CAF,E,counter_attacking,mid_block,3.0,5.0,1,2026-06-14,Amad Diallo 90th min winner clinical counter finish,normal
-46,Ecuador,CONMEBOL,E,central_possession,high_press,5.0,3.0,1,2026-06-14,Dominated first half hit woodwork 4 times 5 corners taken,normal
+46,Ecuador,CONMEBOL,E,central_possession,high_press,7.0,1.5,2,2026-06-21,Dominated first half hit woodwork 4 times 5 corners taken,normal
 47,Sweden,UEFA,F,central_possession,high_press,4.5,2.0,2,2026-06-21,All 5 goals individual quality long-range strikes central scorer blowout,normal
 48,Tunisia,CAF,F,unknown,compact_mid_block,2.5,4.5,2,2026-06-21,Lost 5-1 limited signal on normal style dominated throughout,normal
