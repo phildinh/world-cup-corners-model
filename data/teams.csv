@@ -2,11 +2,11 @@ team_id,team_name,confederation,group,attack_type,defensive_type,avg_corners_tak
 1,Spain,UEFA,H,wide_possession,high_press,7.93,1.93,3,2026-06-22,Dominant possession wide threats Porro Cucurella Baena Torres,normal
 2,Cape Verde,CAF,H,direct_physical,pure_deep_block,2.75,8.25,2,2026-06-18,Heroic GK Vozinha deep block zero attacking threat,normal
 3,Belgium,UEFA,G,wide_possession,mid_block,4.25,5.1,2,2026-06-18,Doku Trossard De Bruyne wide threats fragile defence,normal
-4,Egypt,CAF,G,counter_attacking,mid_block,5.4,3.6,2,2026-06-18,Salah Marmoush counter threat scored early vs Belgium,normal
+4,Egypt,CAF,G,counter_attacking,mid_block,4.6,3.73,3,2026-06-22,Salah Marmoush counter threat scored early vs Belgium,normal
 5,Saudi Arabia,AFC,H,direct_physical,mid_block,3.83,7.27,3,2026-06-22,Al-Dawsari counter threat set piece danger scored from corner,normal
 6,Uruguay,CONMEBOL,H,central_possession,high_press,7.6,5.4,2,2026-06-18,Bielsa vertical pressing system not wide probing,normal
 7,Iran,AFC,G,direct_physical,mid_block,3.0,3.25,2,2026-06-18,Taremi central focused not wide probing,normal
-8,New Zealand,OFC,G,set_piece_specialist,mid_block,3.15,3.35,2,2026-06-18,Chris Wood aerial threat active corner weapon,normal
+8,New Zealand,OFC,G,set_piece_specialist,mid_block,3.43,3.23,3,2026-06-22,Chris Wood aerial threat active corner weapon,normal
 9,France,UEFA,I,wide_possession,high_press,6.9,3.15,2,2026-06-18,Mbappe Olise Barcola Dembele wide threats Kounde overlapping,normal
 10,Senegal,CAF,I,counter_attacking,compact_mid_block,3.4,5.6,2,2026-06-18,Mane Jackson counter threat disciplined mid-block,normal
 11,Iraq,AFC,I,set_piece_specialist,mid_block,3.25,4.25,2,2026-06-18,Set piece danger active corners weapon,normal
