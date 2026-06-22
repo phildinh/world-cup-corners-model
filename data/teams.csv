@@ -4,7 +4,7 @@ team_id,team_name,confederation,group,attack_type,defensive_type,avg_corners_tak
 3,Belgium,UEFA,G,wide_possession,mid_block,4.25,5.1,2,2026-06-18,Doku Trossard De Bruyne wide threats fragile defence,normal
 4,Egypt,CAF,G,counter_attacking,mid_block,4.6,3.73,3,2026-06-22,Salah Marmoush counter threat scored early vs Belgium,normal
 5,Saudi Arabia,AFC,H,direct_physical,mid_block,3.83,7.27,3,2026-06-22,Al-Dawsari counter threat set piece danger scored from corner,normal
-6,Uruguay,CONMEBOL,H,central_possession,high_press,7.6,5.4,2,2026-06-18,Bielsa vertical pressing system not wide probing,normal
+6,Uruguay,CONMEBOL,H,central_possession,high_press,8.73,4.93,3,2026-06-22,Bielsa vertical pressing system not wide probing,normal
 7,Iran,AFC,G,direct_physical,mid_block,3.0,3.25,2,2026-06-18,Taremi central focused not wide probing,normal
 8,New Zealand,OFC,G,set_piece_specialist,mid_block,3.43,3.23,3,2026-06-22,Chris Wood aerial threat active corner weapon,normal
 9,France,UEFA,I,wide_possession,high_press,6.9,3.15,2,2026-06-18,Mbappe Olise Barcola Dembele wide threats Kounde overlapping,normal
@@ -47,3 +47,4 @@ team_id,team_name,confederation,group,attack_type,defensive_type,avg_corners_tak
 46,Ecuador,CONMEBOL,E,central_possession,high_press,7.0,1.5,2,2026-06-21,Dominated first half hit woodwork 4 times 5 corners taken,normal
 47,Sweden,UEFA,F,central_possession,high_press,4.5,2.0,2,2026-06-21,All 5 goals individual quality long-range strikes central scorer blowout,normal
 48,Tunisia,CAF,F,unknown,compact_mid_block,2.5,4.5,2,2026-06-21,Lost 5-1 limited signal on normal style dominated throughout,normal
+49,Cabo Verde,,H,unknown,unknown,4.0,11.0,1,2026-06-22,,low_sample_outlier
