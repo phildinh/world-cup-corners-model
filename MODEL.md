@@ -1,10 +1,10 @@
-# World Cup 2026 — Corners Betting Model v4.2
+# World Cup 2026 — Corners Betting Model v4.3
 
 ## Overview
 A data-driven corners prediction model for FIFA World Cup 2026.
 Built and validated across live matches — updated after every game.
 
-Last updated: June 19, 2026
+Last updated: June 22, 2026
 Current record: 4W 2L (66.7%) | P&L: +2.25u | Correct skips: 8/9 (88.9%)
 
 ---
@@ -101,6 +101,7 @@ Real example: France vs Senegal — CT=yes but edge=1.1 >= 1.0, high confidence 
 | 0-0 deep into second half | Both teams push wide late → corners build |
 | Must-win urgency both teams | Raises tempo but only if style supports wide play |
 | Blowout via central scorer | Corners drop — no need for wide probing |
+| Blowout via central scorer (loser's side) | Losing team's corners often meet or exceed the winner's — confirmed across 4+ matches (Australia/Turkiye MD1, Paraguay MD1, Netherlands/Sweden MD2). Track BOTH teams' corners in a blowout, don't assume the drop applies to the losing side too. |
 | Tournament opener mentality | Cautious first half — tight early, opens later |
 | Altitude venue (1500m+) | Reduces tempo → -1.0 baseline adjustment |
 | Opponent at first World Cup | Ultra-cautious → treat as pure_deep_block, -10% corners taken |
@@ -188,6 +189,10 @@ Belgium vs Egypt: Belgium 2 — Egypt 7. Lost.
 If odds fall below floor: warning printed, user decides.
 Odds below floor do not auto-reject — they flag for review.
 
+### Below-Floor Edge Labeling (v4.3)
+
+When a directional edge clears normal tier thresholds but odds sit below the floor, label it explicitly as "EDGE EXISTS — BELOW FLOOR" in the output, distinct from a true no-edge skip. The floor remains the default recommendation; this only changes how the two cases are presented so the user can make an informed override. 2/2 confirmed profitable overrides this tournament (Canada-Qatar Over 9.5 @1.800, Tunisia-Japan Under 9.0 @1.800).
+
 ---
 
 ## STEP 8 — DECISION CHECKLIST
@@ -256,6 +261,7 @@ Auto-derived from team database or set manually via `--match-type`.
 | v4.0 | Jun 17 | Added: data source hierarchy, counter-threat scoring criteria, altitude modifier, debut opponent modifier, odds floor formalisation, match type tagging |
 | v4.1 | Jun 18 | Added: post-match notes, confidence score (0-100), counter-threat refined rules |
 | v4.2 | Jun 19 | Data integrity fixes — predictions.csv skip-lean gap, matches.csv duplicate merge, teams.csv backfill for 18 missing teams, low_sample_outlier reliability flag added. Record corrected to reflect true state. No rule logic changed (Steps 1-9 unchanged). |
+| v4.3 | Jun 22 | Added: blowout-loser-corners situational rule (Step 4) — confirmed 4+ matches. Below-floor edge labeling, distinct from no-edge skip (Step 7) — confirmed 2/2 overrides. Both Phil-approved after accumulating cases across MD1-3, per the project's deliberate-review standard. |
 
 ---
 
