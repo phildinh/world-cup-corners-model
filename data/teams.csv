@@ -12,9 +12,9 @@ team_id,team_name,confederation,group,attack_type,defensive_type,avg_corners_tak
 11,Iraq,AFC,I,set_piece_specialist,mid_block,3.25,4.25,2,2026-06-18,Set piece danger active corners weapon,normal
 12,Norway,UEFA,I,central_possession,high_press,4.5,3.1,2,2026-06-18,Haaland central scorer Odegaard playmaker scores through middle,normal
 13,Argentina,CONMEBOL,J,central_possession,high_press,2.0,2.0,1,2026-06-16,Messi central brilliance stopped probing wide after 2-0,normal
-14,Algeria,CAF,J,counter_attacking,compact_mid_block,2.0,2.0,1,2026-06-16,Counter_attacking style had no outlet vs Argentina,normal
+14,Algeria,CAF,J,counter_attacking,compact_mid_block,6.0,1.5,2,2026-06-23,Counter_attacking style had no outlet vs Argentina,normal
 15,Austria,UEFA,J,direct_physical,mid_block,4.0,3.0,1,2026-06-17,Scored through direct route not sustained wide crossing,normal
-16,Jordan,AFC,J,direct_physical,compact_mid_block,3.0,4.0,1,2026-06-17,Debut side managed 3 corners limited attacking signal,normal
+16,Jordan,AFC,J,direct_physical,compact_mid_block,2.0,7.0,2,2026-06-23,Debut side managed 3 corners limited attacking signal,normal
 17,Portugal,UEFA,K,wide_possession,high_press,5.0,4.0,1,2026-06-17,Wide possession attack style per match notes,normal
 18,DR Congo,CAF,K,counter_attacking,compact_mid_block,4.0,5.0,1,2026-06-17,Counter-threat via Wissa real and decisive,normal
 19,Uzbekistan,AFC,K,unknown,compact_mid_block,4.0,3.0,1,2026-06-17,Debut side performed defensively attack type unclear,normal
