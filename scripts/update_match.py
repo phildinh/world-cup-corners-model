@@ -235,6 +235,11 @@ def update_match(home, away, home_score, away_score,
     if market and odds and tier:
         check_odds_floor(tier, market, odds)
 
+    if tier == 'tier_3' and stake and bet_outcome:
+        print(f"  WARNING: Tier 3 bet placed (stake {float(stake):.2f}u) — "
+              f"MODEL.md recommends Tier 3 as skip-only. "
+              f"Logging anyway since explicit stake was provided.")
+
     # --- matches.csv ---
     matches = load_csv('matches.csv')
     match_id = next_id(matches, 'match_id')

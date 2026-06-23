@@ -4,8 +4,8 @@
 A data-driven corners prediction model for FIFA World Cup 2026.
 Built and validated across live matches — updated after every game.
 
-Last updated: June 22, 2026
-Current record: 4W 2L (66.7%) | P&L: +2.25u | Correct skips: 8/9 (88.9%)
+Last updated: June 23, 2026
+Current record: 7W 5L (50.0%) | P&L: -0.225u | Correct skips: 8/17 (47.1%)
 
 ---
 
