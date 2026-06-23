@@ -7,14 +7,14 @@ team_id,team_name,confederation,group,attack_type,defensive_type,avg_corners_tak
 6,Uruguay,CONMEBOL,H,central_possession,high_press,8.73,4.93,3,2026-06-22,Bielsa vertical pressing system not wide probing,normal
 7,Iran,AFC,G,direct_physical,mid_block,2.67,3.5,3,2026-06-22,Taremi central focused not wide probing,normal
 8,New Zealand,OFC,G,set_piece_specialist,mid_block,3.43,3.23,3,2026-06-22,Chris Wood aerial threat active corner weapon,normal
-9,France,UEFA,I,wide_possession,high_press,6.9,3.15,2,2026-06-18,Mbappe Olise Barcola Dembele wide threats Kounde overlapping,normal
-10,Senegal,CAF,I,counter_attacking,compact_mid_block,3.4,5.6,2,2026-06-18,Mane Jackson counter threat disciplined mid-block,normal
-11,Iraq,AFC,I,set_piece_specialist,mid_block,3.25,4.25,2,2026-06-18,Set piece danger active corners weapon,normal
-12,Norway,UEFA,I,central_possession,high_press,4.5,3.1,2,2026-06-18,Haaland central scorer Odegaard playmaker scores through middle,normal
-13,Argentina,CONMEBOL,J,central_possession,high_press,2.0,2.0,1,2026-06-16,Messi central brilliance stopped probing wide after 2-0,normal
-14,Algeria,CAF,J,counter_attacking,compact_mid_block,2.0,2.0,1,2026-06-16,Counter_attacking style had no outlet vs Argentina,normal
-15,Austria,UEFA,J,direct_physical,mid_block,4.0,3.0,1,2026-06-17,Scored through direct route not sustained wide crossing,normal
-16,Jordan,AFC,J,direct_physical,compact_mid_block,3.0,4.0,1,2026-06-17,Debut side managed 3 corners limited attacking signal,normal
+9,France,UEFA,I,wide_possession,high_press,5.93,2.77,3,2026-06-23,Mbappe Olise Barcola Dembele wide threats Kounde overlapping,normal
+10,Senegal,CAF,I,counter_attacking,compact_mid_block,3.6,5.4,3,2026-06-23,Mane Jackson counter threat disciplined mid-block,normal
+11,Iraq,AFC,I,set_piece_specialist,mid_block,2.83,4.17,3,2026-06-23,Set piece danger active corners weapon,normal
+12,Norway,UEFA,I,central_possession,high_press,4.67,3.4,3,2026-06-23,Haaland central scorer Odegaard playmaker scores through middle,normal
+13,Argentina,CONMEBOL,J,central_possession,high_press,1.5,2.5,2,2026-06-23,Messi central brilliance stopped probing wide after 2-0,normal
+14,Algeria,CAF,J,counter_attacking,compact_mid_block,6.0,1.5,2,2026-06-23,Counter_attacking style had no outlet vs Argentina,normal
+15,Austria,UEFA,J,direct_physical,mid_block,3.5,2.0,2,2026-06-23,Scored through direct route not sustained wide crossing,normal
+16,Jordan,AFC,J,direct_physical,compact_mid_block,2.0,7.0,2,2026-06-23,Debut side managed 3 corners limited attacking signal,normal
 17,Portugal,UEFA,K,wide_possession,high_press,5.0,4.0,1,2026-06-17,Wide possession attack style per match notes,normal
 18,DR Congo,CAF,K,counter_attacking,compact_mid_block,4.0,5.0,1,2026-06-17,Counter-threat via Wissa real and decisive,normal
 19,Uzbekistan,AFC,K,unknown,compact_mid_block,4.0,3.0,1,2026-06-17,Debut side performed defensively attack type unclear,normal
