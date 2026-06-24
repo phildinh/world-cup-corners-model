@@ -15,9 +15,9 @@ team_id,team_name,confederation,group,attack_type,defensive_type,avg_corners_tak
 14,Algeria,CAF,J,counter_attacking,compact_mid_block,6.0,1.5,2,2026-06-23,Counter_attacking style had no outlet vs Argentina,normal
 15,Austria,UEFA,J,direct_physical,mid_block,3.5,2.0,2,2026-06-23,Scored through direct route not sustained wide crossing,normal
 16,Jordan,AFC,J,direct_physical,compact_mid_block,2.0,7.0,2,2026-06-23,Debut side managed 3 corners limited attacking signal,normal
-17,Portugal,UEFA,K,wide_possession,high_press,5.0,4.0,1,2026-06-17,Wide possession attack style per match notes,normal
+17,Portugal,UEFA,K,wide_possession,high_press,4.0,3.0,2,2026-06-24,Wide possession attack style per match notes,normal
 18,DR Congo,CAF,K,counter_attacking,compact_mid_block,4.0,5.0,1,2026-06-17,Counter-threat via Wissa real and decisive,normal
-19,Uzbekistan,AFC,K,unknown,compact_mid_block,4.0,3.0,1,2026-06-17,Debut side performed defensively attack type unclear,normal
+19,Uzbekistan,AFC,K,unknown,compact_mid_block,3.0,3.0,2,2026-06-24,Debut side performed defensively attack type unclear,normal
 20,Colombia,CONMEBOL,K,central_possession,high_press,3.0,4.0,1,2026-06-17,Central attacking moves not wide crosses Luis Diaz Campaz,normal
 21,Ghana,CAF,L,counter_attacking,mid_block,2.0,2.0,1,2026-06-17,Counter_attacking/direct not wide possession,normal
 22,Panama,CONCACAF,L,direct_physical,compact_mid_block,2.0,2.0,1,2026-06-17,Sat deep and compact limited attacking output,normal
