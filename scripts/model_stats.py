@@ -1,7 +1,10 @@
 import pandas as pd
 import os
+import re
+from datetime import date
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), '..', 'data')
+MODEL_PATH = os.path.join(os.path.dirname(__file__), '..', 'MODEL.md')
 
 def load_csv(filename):
     path = os.path.join(DATA_DIR, filename)
@@ -138,6 +141,36 @@ def model_stats():
 
     print_divider()
     print()
+
+    update_model_header(won, lost, win_rate, total_pl, correct_skips,
+                        total_skips, skip_accuracy)
+
+
+def update_model_header(won, lost, win_rate, total_pl, correct_skips,
+                        total_skips, skip_accuracy):
+    with open(MODEL_PATH, 'r', encoding='utf-8') as f:
+        text = f.read()
+
+    today_str = date.today().strftime('%B %d, %Y').replace(' 0', ' ')
+    # e.g. "June 24, 2026"
+
+    pl_str = f"+{total_pl}" if total_pl >= 0 else str(total_pl)
+    record_line = (
+        f"Current record: {won}W {lost}L ({win_rate}%) "
+        f"| P&L: {pl_str}u "
+        f"| Correct skips: {correct_skips}/{total_skips} ({skip_accuracy}%)"
+    )
+
+    text = re.sub(r'^Last updated:.*$', f'Last updated: {today_str}',
+                  text, count=1, flags=re.MULTILINE)
+    text = re.sub(r'^Current record:.*$', record_line,
+                  text, count=1, flags=re.MULTILINE)
+
+    with open(MODEL_PATH, 'w', encoding='utf-8') as f:
+        f.write(text)
+
+    print(f"  MODEL.md header updated -> {record_line}")
+
 
 if __name__ == '__main__':
     model_stats()
