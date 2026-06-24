@@ -119,6 +119,31 @@ SKIPPED MATCH — PowerShell format:
       --notes "[one line summary]" `
       --skip-lean [over/under/none]
 
+BET-ONLY (second bet on same match, e.g. 1H market) — PowerShell format:
+
+    python main.py update `
+      --bet-only `
+      --match-id [XXX] `
+      --home [Home] `
+      --away [Away] `
+      --home-score [X] `
+      --away-score [X] `
+      --total-corners [X] `
+      --home-corners [X] `
+      --away-corners [X] `
+      --group [X] `
+      --notes "[one line summary]" `
+      --market [total_over/total_under/ah_corners/1h_over/1h_under] `
+      --selection "[e.g. 1H Over 4.5]" `
+      --odds [X.XXX] `
+      --stake 1.00 `
+      --bet-outcome [won/lost/void] `
+      --tier [tier_1/tier_2/tier_3] `
+      --confidence [high/medium/low] `
+      --line [X.X] `
+      --home-avg [X.XX] `
+      --away-avg [X.XX]
+
 OR use single line format — no continuation needed:
 
     python main.py update --home [Home] --away [Away] --home-score [X] --away-score [X] --total-corners [X] --home-corners [X] --away-corners [X] --group [X] --game-state [normal] --notes "[summary]" --skip-lean [over/under/none]
@@ -150,7 +175,7 @@ using backtick ` for line continuation — never backslash \.
 
 ## QUICK RULES
 
-- Max 1 bet per match
+- Max 1 bet per market per match (same-match multi-market bets must reflect genuinely independent edges)
 - Max 2 bets per day unless 3+ strong independent edges exist
 - Default market is always Asian Total Corners Over/Under
 - Never AH Corners when opponent has counter-threat

@@ -74,7 +74,8 @@ Run this whenever MODEL.md rules are updated
 ## Staking Rules
 - Tier 1 high confidence  → stake 2.00 units
 - Tier 2 medium confidence → stake 1.00 units
-- Never stake more than 4 units total per day
+- Max 1 bet per market per match (same-match multi-market bets must reflect genuinely independent edges, not the same signal expressed twice)
+- Never stake more than 4 units total per day (auto-checked, warning printed if exceeded)
 - Shadow bets are tracked in predictions.csv only — never in bets.csv
 
 When generating update commands for Claude Chat:
@@ -91,6 +92,8 @@ When generating update commands for Claude Chat:
 - --venue "[stadium name]"             → auto-detects altitude
 - --debut-opponent                     → opponent -10% corners, treat as deep block
 - --match-type [type]                  → auto-derived or manual override
+- --bet-only                           → attach a new bet to an existing match (skips matches.csv and teams.csv)
+- --match-id [XXX]                     → existing 3-digit match_id (required with --bet-only)
 
 ## Schema Rules
 - Every row appended must match exact column order in each CSV

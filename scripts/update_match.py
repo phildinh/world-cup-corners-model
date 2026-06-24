@@ -207,6 +207,17 @@ def apply_counter_threat_rules(ct, dc, market, edge, tier):
     return effective_tier
 
 
+def check_daily_stake_cap(stake, today):
+    bets = load_csv('bets.csv')
+    today_bets = bets[bets['date'] == today]
+    today_staked = today_bets['stake'].sum() if len(today_bets) > 0 else 0.0
+    new_total = today_staked + float(stake)
+    if new_total > 4.0:
+        print(f"  WARNING: Today's total stake would be {new_total:.2f}u, "
+              f"exceeding the 4-unit daily cap. "
+              f"Logging anyway since explicit stake was provided.")
+
+
 def update_match(home, away, home_score, away_score,
                  total_corners, home_corners, away_corners,
                  group, game_state, notes,
@@ -219,12 +230,29 @@ def update_match(home, away, home_score, away_score,
                  counter_threat=None, counter_scorer=False,
                  transition_xg=None, altitude=None, venue=None,
                  debut_opponent=False, match_type=None,
-                 match_notes=None):
+                 match_notes=None,
+                 bet_only=False, existing_match_id=None):
 
     today = date.today().isoformat()
     home = home.replace('_', ' ')
     away = away.replace('_', ' ')
     teams = load_csv('teams.csv')
+
+    # --- bet-only mode: validate match_id exists, skip match/team writes ---
+    if bet_only:
+        if not existing_match_id:
+            print("  ERROR: --bet-only requires --match-id")
+            return
+        matches = load_csv('matches.csv')
+        match_ids = matches['match_id'].astype(str).str.zfill(3)
+        if existing_match_id not in match_ids.values:
+            print(f"  ERROR: match_id {existing_match_id} not found in matches.csv")
+            return
+        match_id = existing_match_id
+        print(f"  BET-ONLY MODE — attaching to existing match {match_id}, "
+              f"skipping matches.csv and teams.csv")
+    else:
+        existing_match_id = None
 
     if altitude is None or altitude == 'no':
         altitude_active = detect_altitude(venue) if venue else False
@@ -258,59 +286,63 @@ def update_match(home, away, home_score, away_score,
               f"MODEL.md recommends Tier 3 as skip-only. "
               f"Logging anyway since explicit stake was provided.")
 
-    # --- matches.csv ---
-    matches = load_csv('matches.csv')
-    match_id = next_id(matches, 'match_id')
-    new_match = {
-        'match_id': match_id,
-        'date': today,
-        'group': group,
-        'home_team': home,
-        'away_team': away,
-        'home_score': home_score,
-        'away_score': away_score,
-        'total_corners': total_corners,
-        'home_corners': home_corners,
-        'away_corners': away_corners,
-        'game_state': game_state,
-        'match_type': mt,
-        'notes': notes,
-        'match_notes': match_notes or ''
-    }
-    matches = pd.concat([matches, pd.DataFrame([new_match])], ignore_index=True)
-    save_csv(matches, 'matches.csv')
+    if stake:
+        check_daily_stake_cap(stake, today)
 
-    # --- teams.csv --- upsert: update existing or insert new
-    for team, corners_taken, corners_conceded in [
-        (home, home_corners, away_corners),
-        (away, away_corners, home_corners)
-    ]:
-        if team in teams['team_name'].values:
-            idx = teams[teams['team_name'] == team].index[0]
-            played = teams.at[idx, 'matches_played']
-            old_taken = teams.at[idx, 'avg_corners_taken']
-            old_conceded = teams.at[idx, 'avg_corners_conceded']
-            teams.at[idx, 'avg_corners_taken'] = round(
-                ((old_taken * played) + corners_taken) / (played + 1), 2)
-            teams.at[idx, 'avg_corners_conceded'] = round(
-                ((old_conceded * played) + corners_conceded) / (played + 1), 2)
-            teams.at[idx, 'matches_played'] = played + 1
-            teams.at[idx, 'last_updated'] = today
-            if played + 1 >= 2:
-                teams.at[idx, 'data_reliability'] = 'normal'
-        else:
-            new_team_id = int(teams['team_id'].max()) + 1
-            new_team = {
-                'team_id': new_team_id, 'team_name': team,
-                'confederation': '', 'group': group,
-                'attack_type': 'unknown', 'defensive_type': 'unknown',
-                'avg_corners_taken': corners_taken,
-                'avg_corners_conceded': corners_conceded,
-                'matches_played': 1, 'last_updated': today,
-                'notes': '', 'data_reliability': 'low_sample_outlier'
-            }
-            teams = pd.concat([teams, pd.DataFrame([new_team])], ignore_index=True)
-    save_csv(teams, 'teams.csv')
+    if not bet_only:
+        # --- matches.csv ---
+        matches = load_csv('matches.csv')
+        match_id = next_id(matches, 'match_id')
+        new_match = {
+            'match_id': match_id,
+            'date': today,
+            'group': group,
+            'home_team': home,
+            'away_team': away,
+            'home_score': home_score,
+            'away_score': away_score,
+            'total_corners': total_corners,
+            'home_corners': home_corners,
+            'away_corners': away_corners,
+            'game_state': game_state,
+            'match_type': mt,
+            'notes': notes,
+            'match_notes': match_notes or ''
+        }
+        matches = pd.concat([matches, pd.DataFrame([new_match])], ignore_index=True)
+        save_csv(matches, 'matches.csv')
+
+        # --- teams.csv --- upsert: update existing or insert new
+        for team, corners_taken, corners_conceded in [
+            (home, home_corners, away_corners),
+            (away, away_corners, home_corners)
+        ]:
+            if team in teams['team_name'].values:
+                idx = teams[teams['team_name'] == team].index[0]
+                played = teams.at[idx, 'matches_played']
+                old_taken = teams.at[idx, 'avg_corners_taken']
+                old_conceded = teams.at[idx, 'avg_corners_conceded']
+                teams.at[idx, 'avg_corners_taken'] = round(
+                    ((old_taken * played) + corners_taken) / (played + 1), 2)
+                teams.at[idx, 'avg_corners_conceded'] = round(
+                    ((old_conceded * played) + corners_conceded) / (played + 1), 2)
+                teams.at[idx, 'matches_played'] = played + 1
+                teams.at[idx, 'last_updated'] = today
+                if played + 1 >= 2:
+                    teams.at[idx, 'data_reliability'] = 'normal'
+            else:
+                new_team_id = int(teams['team_id'].max()) + 1
+                new_team = {
+                    'team_id': new_team_id, 'team_name': team,
+                    'confederation': '', 'group': group,
+                    'attack_type': 'unknown', 'defensive_type': 'unknown',
+                    'avg_corners_taken': corners_taken,
+                    'avg_corners_conceded': corners_conceded,
+                    'matches_played': 1, 'last_updated': today,
+                    'notes': '', 'data_reliability': 'low_sample_outlier'
+                }
+                teams = pd.concat([teams, pd.DataFrame([new_team])], ignore_index=True)
+        save_csv(teams, 'teams.csv')
 
     # --- bets.csv ---
     if market and selection and odds and stake and bet_outcome:
@@ -423,7 +455,10 @@ def update_match(home, away, home_score, away_score,
             [lessons, pd.DataFrame([new_lesson])], ignore_index=True)
         save_csv(lessons, 'lessons.csv')
 
-    print(f"\n  All data updated for {home} vs {away}")
+    if bet_only:
+        print(f"\n  Bet-only update for {home} vs {away} (match {match_id})")
+    else:
+        print(f"\n  All data updated for {home} vs {away}")
     print(f"   Match ID: {match_id}")
     print(f"   Score: {home_score}-{away_score}")
     print(f"   Corners: {total_corners} ({home_corners} / {away_corners})")
@@ -435,22 +470,26 @@ def update_match(home, away, home_score, away_score,
     if match_notes:
         print(f"   Research notes: {match_notes}")
 
-    git_commit(home, away, total_corners)
+    if bet_only:
+        git_commit(home, away, total_corners,
+                   msg=f'data: {home} vs {away} — bet-only (match {match_id})')
+    else:
+        git_commit(home, away, total_corners)
 
 
-def git_commit(home, away, total_corners):
+def git_commit(home, away, total_corners, msg=None):
     try:
         repo_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+        commit_msg = msg or f'data: {home} vs {away} -- {total_corners} corners'
         subprocess.run(['git', 'add', 'data/'],
                        check=True, cwd=repo_dir)
-        subprocess.run(['git', 'commit', '-m',
-                        f'data: {home} vs {away} — {total_corners} corners'],
+        subprocess.run(['git', 'commit', '-m', commit_msg],
                        check=True, cwd=repo_dir)
         subprocess.run(['git', 'push'],
                        check=True, cwd=repo_dir)
         print(f"\n  Git committed and pushed successfully")
     except subprocess.CalledProcessError as e:
-        print(f"\n  Git operation failed — push manually: {e}")
+        print(f"\n  Git operation failed -- push manually: {e}")
 
 
 if __name__ == '__main__':
@@ -499,6 +538,10 @@ if __name__ == '__main__':
         help='Opponent at first World Cup')
     parser.add_argument('--match-type', default=None,
         help='Match type override')
+    parser.add_argument('--bet-only', action='store_true',
+        help='Attach a new bet to an existing match (skip matches.csv and teams.csv)')
+    parser.add_argument('--match-id', default=None,
+        help='Existing 3-digit match_id to attach bet to (used with --bet-only)')
     args = parser.parse_args()
 
     update_match(
@@ -520,5 +563,7 @@ if __name__ == '__main__':
         altitude=args.altitude, venue=args.venue,
         debut_opponent=args.debut_opponent,
         match_type=args.match_type,
-        match_notes=args.match_notes
+        match_notes=args.match_notes,
+        bet_only=args.bet_only,
+        existing_match_id=args.match_id
     )

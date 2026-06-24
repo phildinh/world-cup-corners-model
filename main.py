@@ -101,6 +101,12 @@ Commands:
                         help='wide_vs_deep / wide_vs_counter / central_vs_deep / '
                              'direct_vs_direct / wide_vs_open / mixed')
 
+    # ── BET-ONLY ARGS ────────────────────────────────
+    parser.add_argument('--bet-only', action='store_true',
+                        help='Attach a new bet to an existing match')
+    parser.add_argument('--match-id', default=None,
+                        help='Existing 3-digit match_id (used with --bet-only)')
+
     # ── LESSON ARGS ──────────────────────────────────
     parser.add_argument('--lesson', default=None,
                         help='Lesson learned from match')
@@ -159,7 +165,9 @@ Commands:
             altitude=args.altitude, venue=args.venue,
             debut_opponent=args.debut_opponent,
             match_type=args.match_type,
-            match_notes=args.match_notes
+            match_notes=args.match_notes,
+            bet_only=args.bet_only,
+            existing_match_id=args.match_id
         )
 
     elif args.command == 'report':
