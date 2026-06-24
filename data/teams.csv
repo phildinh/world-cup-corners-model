@@ -20,9 +20,9 @@ team_id,team_name,confederation,group,attack_type,defensive_type,avg_corners_tak
 19,Uzbekistan,AFC,K,unknown,compact_mid_block,3.0,3.0,2,2026-06-24,Debut side performed defensively attack type unclear,normal
 20,Colombia,CONMEBOL,K,central_possession,high_press,4.0,4.0,2,2026-06-24,Central attacking moves not wide crosses Luis Diaz Campaz,normal
 21,Ghana,CAF,L,counter_attacking,mid_block,2.0,2.0,1,2026-06-17,Counter_attacking/direct not wide possession,normal
-22,Panama,CONCACAF,L,direct_physical,compact_mid_block,2.0,2.0,1,2026-06-17,Sat deep and compact limited attacking output,normal
+22,Panama,CONCACAF,L,direct_physical,compact_mid_block,4.5,2.0,2,2026-06-24,Sat deep and compact limited attacking output,normal
 23,England,UEFA,L,wide_possession,high_press,8.0,2.0,1,2026-06-17,Saka Gordon Madueke wide delivery 8 corners from sustained width,normal
-24,Croatia,UEFA,L,central_possession,pure_deep_block,2.0,8.0,1,2026-06-17,Sat deep with Modric at 40 zero pace in behind,normal
+24,Croatia,UEFA,L,central_possession,pure_deep_block,2.0,7.5,2,2026-06-24,Sat deep with Modric at 40 zero pace in behind,normal
 25,Czechia,UEFA,A,set_piece_specialist,mid_block,5.0,4.5,2,2026-06-19,Set-piece/throw-in identity Coufal Sadilek corners,normal
 26,South Africa,CAF,A,unknown,mid_block,3.0,4.0,2,2026-06-19,Pushed numbers forward chasing baseline style unclear,normal
 27,Switzerland,UEFA,B,wide_possession,high_press,8.5,3.0,2,2026-06-19,Wide_possession identity held via Rieder Aebischer,normal
