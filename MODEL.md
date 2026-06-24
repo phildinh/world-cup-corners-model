@@ -1,10 +1,10 @@
-# World Cup 2026 — Corners Betting Model v4.3
+# World Cup 2026 — Corners Betting Model v4.4
 
 ## Overview
 A data-driven corners prediction model for FIFA World Cup 2026.
 Built and validated across live matches — updated after every game.
 
-Last updated: June 23, 2026
+Last updated: June 24, 2026
 Current record: 7W 5L (50.0%) | P&L: -0.225u | Correct skips: 8/17 (47.1%)
 
 ---
@@ -155,9 +155,23 @@ Any one of these present:
 |---|---|
 | Asian Total Corners Over | Default first choice — robust to game state |
 | Asian Total Corners Under | Both teams direct AND line 1.5+ above baseline |
-| AH Corners (team -X) | ONLY pure deep block opponent, zero counter-threat |
+| AH Corners (team -X) | ONLY if both gates pass (see below) |
 | 1st Half Corners Over | One team aggressively starts + wide attack style |
 | Team Corners Over/Under | One team clearly dominates corners battle |
+
+### AH Corners Gate (v4.0 + v4.4 CANDIDATE)
+
+AH Corners is permitted only if **BOTH** conditions are met:
+
+| Gate | Rule | Source |
+|---|---|---|
+| Counter-threat gate (v4.0) | No counter-threat present (CT = no) | Existing — see Step 3 |
+| Differential-edge gate (v4.4 CANDIDATE) | Pre-match \|avg_corners_taken(A) − avg_corners_taken(B)\| >= 4.0 | teams.csv rolling averages |
+
+If counter-threat is present → AH FORBIDDEN (unchanged).
+If CT is absent but differential edge < 4.0 → AH reclassified as skip, note: "AH structurally permitted but differential edge below 4.0 minimum."
+
+**CANDIDATE STATUS:** Based on 5-match wide_vs_deep retrospective (mean |diff| 5.4, min 2). Needs 4-5 actual AH bets logged under this gate before being treated as validated. AH odds floor remains flat at 1.900 — no edge-based tiering yet.
 
 ### AH Corners Warning
 Never use when opponent has a counter-threat.
@@ -262,6 +276,7 @@ Auto-derived from team database or set manually via `--match-type`.
 | v4.1 | Jun 18 | Added: post-match notes, confidence score (0-100), counter-threat refined rules |
 | v4.2 | Jun 19 | Data integrity fixes — predictions.csv skip-lean gap, matches.csv duplicate merge, teams.csv backfill for 18 missing teams, low_sample_outlier reliability flag added. Record corrected to reflect true state. No rule logic changed (Steps 1-9 unchanged). |
 | v4.3 | Jun 22 | Added: blowout-loser-corners situational rule (Step 4) — confirmed 4+ matches. Below-floor edge labeling, distinct from no-edge skip (Step 7) — confirmed 2/2 overrides. Both Phil-approved after accumulating cases across MD1-3, per the project's deliberate-review standard. |
+| v4.4 | Jun 24 | CANDIDATE: AH corners differential-edge gate (Step 6) — pre-match \|avg_taken diff\| >= 4.0 required on top of existing CT gate. Based on 5-match wide_vs_deep retrospective. Pending validation over 4-5 actual AH bets. |
 
 ---
 
