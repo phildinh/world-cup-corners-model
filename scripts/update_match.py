@@ -161,6 +161,24 @@ def calculate_confidence_score(baseline, line, data_confidence,
 
     return max(0, min(100, score))
 
+def check_ah_differential_gate(home, away, teams, market):
+    if market != 'ah_corners':
+        return True
+    home_avg = 0.0
+    away_avg = 0.0
+    if home in teams['team_name'].values:
+        home_avg = float(teams[teams['team_name'] == home].iloc[0]['avg_corners_taken'])
+    if away in teams['team_name'].values:
+        away_avg = float(teams[teams['team_name'] == away].iloc[0]['avg_corners_taken'])
+    diff = abs(home_avg - away_avg)
+    if diff < 4.0:
+        print(f"  AH DIFFERENTIAL GATE FAILED — |{home_avg:.1f} - {away_avg:.1f}| = {diff:.1f} < 4.0 minimum")
+        print(f"  AH structurally permitted but differential edge below 4.0 minimum")
+        return False
+    print(f"  AH DIFFERENTIAL GATE PASSED — |{home_avg:.1f} - {away_avg:.1f}| = {diff:.1f} >= 4.0")
+    return True
+
+
 def apply_counter_threat_rules(ct, dc, market, edge, tier):
     effective_tier = tier
     if ct != 'yes':
@@ -337,6 +355,11 @@ def update_match(home, away, home_score, away_score,
         edge = abs(combined_baseline - (line or 0))
         effective_tier = apply_counter_threat_rules(
             ct, dc, market, edge, effective_tier)
+
+        # v4.4 CANDIDATE — AH differential-edge gate (additive to CT gate)
+        if market == 'ah_corners' and ct != 'yes':
+            if not check_ah_differential_gate(home, away, teams, market):
+                print("  AH reclassified as skip — use total market instead")
 
         bet_placed = True if market else False
         lean = skip_lean if not market else ''
